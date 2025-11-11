@@ -14,19 +14,8 @@ import ThemeSelector from "./ThemeSelector";
 import CustomThemeCreator from "./CustomThemeCreator";
 import { EditModeProvider } from "@/contexts/EditModeContext";
 import { Button } from "@/components/ui/button";
-import {
-  Save,
-  Eye,
-  ArrowLeft,
-  Plus,
-  Settings,
-  Download,
-  HelpCircle,
-  Palette,
-  Paintbrush,
-} from "lucide-react";
+import { Save, Eye, Plus, Settings, Download, HelpCircle, Palette, Paintbrush } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useRouter } from "next/navigation";
 import { useAutoSave } from "@/hooks/use-auto-save";
 import { useKeyboardShortcuts, COMMON_SHORTCUTS } from "@/hooks/use-keyboard-shortcuts";
 import { getTheme, applyTheme } from "@/lib/themes";
@@ -72,7 +61,6 @@ export function EditableLandingPage({ page, theme, config, onSave }: EditableLan
   const [customThemeCreatorOpen, setCustomThemeCreatorOpen] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
   const { toast } = useToast();
-  const router = useRouter();
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -113,12 +101,8 @@ export function EditableLandingPage({ page, theme, config, onSave }: EditableLan
     window.open(`/${editingPage.slug}`, "_blank");
   };
 
-  // Back to dashboard
-  const handleBack = () => {
-    if (confirm("Are you sure? Any unsaved changes will be lost.")) {
-      router.push("/admin");
-    }
-  };
+  // Note: "Back to Dashboard" removed in new flow
+  // Admin page is now the editor itself, no separate dashboard
 
   // Auto-save functionality
   const { hasUnsavedChanges, markAsSaved } = useAutoSave({
@@ -661,10 +645,6 @@ export function EditableLandingPage({ page, theme, config, onSave }: EditableLan
             }`}
           >
             <div className="flex items-center gap-4">
-              <Button variant="ghost" size="sm" onClick={handleBack} className="gap-1">
-                <ArrowLeft className="h-4 w-4" />
-                Back to Dashboard
-              </Button>
               <div>
                 <h1 className="text-lg font-semibold">{editingPage.title}</h1>
                 <div className="flex items-center gap-2">

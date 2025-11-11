@@ -479,14 +479,38 @@ export interface Metadata {
 }
 
 /**
+ * Version history entry for landing pages
+ */
+export interface LandingPageVersion {
+  id: string;
+  name: string;
+  page: LandingPage;
+  createdAt: string;
+  description?: string;
+}
+
+/**
+ * Published/Draft state for landing page
+ */
+export interface PublishedLandingState {
+  draft: LandingPage | null;
+  published: LandingPage | null;
+  publishedAt?: string;
+  // Version history
+  versions?: LandingPageVersion[];
+}
+
+/**
  * Complete landing configuration (root of landing-config.json)
  */
 export interface LandingConfig {
   version: string;
   metadata: Metadata;
   themes: Record<string, Theme>;
-  pages: Record<string, LandingPage>;
+  pages: Record<string, LandingPage>; // Legacy: Keep for backward compatibility
   navigation?: Navigation;
+  // New: Single landing page with draft/published state
+  currentLanding?: PublishedLandingState;
 }
 
 // ========================

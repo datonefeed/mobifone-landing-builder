@@ -15,7 +15,7 @@ interface PageProps {
 }
 
 /**
- * Generate static params for all pages at build time
+ * Generate static params for all sub-pages at build time
  */
 export async function generateStaticParams() {
   try {
@@ -23,8 +23,14 @@ export async function generateStaticParams() {
     const data = await readFile(configPath, "utf-8");
     const config: LandingConfig = JSON.parse(data);
 
-    return Object.values(config.pages).map((page) => ({
-      slug: page.slug,
+    const publishedPage = config.currentLanding?.published;
+
+    if (!publishedPage || !publishedPage.isMultiPage || !publishedPage.subPages) {
+      return [];
+    }
+
+    return publishedPage.subPages.map((subPage) => ({
+      slug: subPage.slug,
     }));
   } catch (error) {
     console.error("Error generating static params:", error);
@@ -41,29 +47,25 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const data = await readFile(configPath, "utf-8");
     const config: LandingConfig = JSON.parse(data);
 
-    const page = Object.values(config.pages).find((p) => p.slug === params.slug);
+    const publishedPage = config.currentLanding?.published;
 
-    if (!page) {
+    if (!publishedPage || !publishedPage.isMultiPage || !publishedPage.subPages) {
+      return {
+        title: "Page Not Found",
+      };
+    }
+
+    const subPage = publishedPage.subPages.find((p) => p.slug === params.slug);
+
+    if (!subPage) {
       return {
         title: "Page Not Found",
       };
     }
 
     return {
-      title: page.seo.metaTitle || page.title,
-      description: page.seo.metaDescription || page.description,
-      keywords: page.seo.keywords,
-      openGraph: {
-        title: page.seo.metaTitle || page.title,
-        description: page.seo.metaDescription || page.description,
-        images: page.seo.ogImage ? [page.seo.ogImage] : [],
-      },
-      twitter: {
-        card: "summary_large_image",
-        title: page.seo.metaTitle || page.title,
-        description: page.seo.metaDescription || page.description,
-        images: page.seo.ogImage ? [page.seo.ogImage] : [],
-      },
+      title: subPage.title || "Sub Page",
+      description: subPage.description || "",
     };
   } catch (error) {
     console.error("Error generating metadata:", error);
@@ -74,32 +76,44 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 /**
- * Landing page component (Server-side rendered)
+ * Sub-page component for multi-page landing (Server-side rendered)
  */
-export default async function LandingPage({ params }: PageProps) {
+export default async function SubPage({ params }: PageProps) {
   try {
     // Read configuration
     const configPath = join(process.cwd(), "public/data/landing-config.json");
     const data = await readFile(configPath, "utf-8");
     const config: LandingConfig = JSON.parse(data);
 
-    // Find page by slug
-    const page = Object.values(config.pages).find((p) => p.slug === params.slug);
+    // Get published page
+    const publishedPage = config.currentLanding?.published;
 
-    if (!page) {
+    if (!publishedPage) {
       notFound();
     }
 
-    // Get theme from themes.ts (not from config.themes)
-    const theme = getTheme(page.theme || "modern");
+    // If not multi-page, redirect to home
+    if (!publishedPage.isMultiPage || !publishedPage.subPages) {
+      notFound();
+    }
+
+    // Find sub-page by slug
+    const subPage = publishedPage.subPages.find((p) => p.slug === params.slug);
+
+    if (!subPage) {
+      notFound();
+    }
+
+    // Get theme
+    const theme = getTheme(publishedPage.theme || "modern");
 
     // Sort components by order and filter visible ones
-    const sortedComponents = [...page.components]
+    const sortedComponents = [...subPage.components]
       .filter((c) => c.visible !== false)
       .sort((a, b) => a.order - b.order);
 
-    // Get loading configuration
-    const loadingConfig = page.loading || {
+    // Get loading configuration from main page
+    const loadingConfig = publishedPage.loading || {
       enabled: false,
       type: "spin" as const,
       color: "#f97316",
@@ -125,7 +139,7 @@ export default async function LandingPage({ params }: PageProps) {
       </ThemeProvider>
     );
   } catch (error) {
-    console.error("Error rendering landing page:", error);
+    console.error("Error rendering sub-page:", error);
     notFound();
   }
 }
