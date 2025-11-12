@@ -498,6 +498,8 @@ export interface PublishedLandingState {
   publishedAt?: string;
   // Version history
   versions?: LandingPageVersion[];
+  // Track which version is currently being edited (if any)
+  activeVersionId?: string | null;
 }
 
 /**
