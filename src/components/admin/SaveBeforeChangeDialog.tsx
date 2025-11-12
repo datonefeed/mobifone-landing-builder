@@ -20,6 +20,7 @@ interface SaveBeforeChangeDialogProps {
   onSaveAndContinue: (name: string, description?: string) => void;
   onContinueWithoutSaving: () => void;
   actionName?: string; // e.g., "change template", "close editor"
+  hasActiveVersion?: boolean; // If editing a saved version, skip name input
 }
 
 export function SaveBeforeChangeDialog({
@@ -28,6 +29,7 @@ export function SaveBeforeChangeDialog({
   onSaveAndContinue,
   onContinueWithoutSaving,
   actionName = "change template",
+  hasActiveVersion = false,
 }: SaveBeforeChangeDialogProps) {
   const [mode, setMode] = useState<"prompt" | "save">("prompt");
   const [versionName, setVersionName] = useState("");
@@ -102,7 +104,19 @@ export function SaveBeforeChangeDialog({
               >
                 Continue Without Saving
               </Button>
-              <Button onClick={() => setMode("save")} className="gap-2 w-full sm:w-auto">
+              <Button
+                onClick={() => {
+                  if (hasActiveVersion) {
+                    // If editing a saved version, update it directly without asking for name
+                    onSaveAndContinue("", "");
+                    onOpenChange(false);
+                  } else {
+                    // Otherwise, ask for version name
+                    setMode("save");
+                  }
+                }}
+                className="gap-2 w-full sm:w-auto"
+              >
                 <Save className="h-4 w-4" />
                 Save & Continue
               </Button>
