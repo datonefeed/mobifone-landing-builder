@@ -52,7 +52,11 @@ export function Testimonials({ config }: TestimonialsProps) {
         {testimonial.rating && (
           <div className="flex gap-1 mb-4">
             {Array.from({ length: testimonial.rating }).map((_, i) => (
-              <Star key={i} className="h-5 w-5 fill-current" style={{ color: primaryColor }} />
+              <Star
+                key={`star-${testimonial.id}-${i}`}
+                className="h-5 w-5 fill-current"
+                style={{ color: primaryColor }}
+              />
             ))}
           </div>
         )}
