@@ -24,7 +24,8 @@ type DialogState = {
     | "publish"
     | "publish-success"
     | "publish-error"
-    | "version-history";
+    | "version-history"
+    | "version-applied";
   open: boolean;
 };
 
@@ -38,6 +39,7 @@ export default function AdminDashboard() {
   const [draftPage, setDraftPage] = useState<LandingPage | null>(null);
   const [publishedPage, setPublishedPage] = useState<LandingPage | null>(null);
   const [dialogState, setDialogState] = useState<DialogState>({ type: "none", open: false });
+  const [activeVersionId, setActiveVersionId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchConfig();
@@ -53,6 +55,7 @@ export default function AdminDashboard() {
       if (data.currentLanding) {
         setDraftPage(data.currentLanding.draft);
         setPublishedPage(data.currentLanding.published);
+        setActiveVersionId(data.currentLanding.activeVersionId || null);
 
         // If has draft, go to editor
         if (data.currentLanding.draft) {
@@ -107,6 +110,7 @@ export default function AdminDashboard() {
     };
 
     setDraftPage(newPage);
+    setActiveVersionId(null); // Clear active version when selecting new template
     setMode(type === "multi" ? "edit-multi" : "edit-single");
     setTemplateSelectorOpen(false);
   };
@@ -116,12 +120,29 @@ export default function AdminDashboard() {
 
     setSaving(true);
     try {
+      let updatedVersions = config.currentLanding?.versions || [];
+
+      // If editing an active version, update that version
+      if (activeVersionId) {
+        updatedVersions = updatedVersions.map((v) =>
+          v.id === activeVersionId
+            ? {
+                ...v,
+                page: updatedPage,
+                createdAt: v.createdAt, // Keep original creation time
+              }
+            : v
+        );
+      }
+
       const updatedConfig = {
         ...config,
         currentLanding: {
           draft: updatedPage,
           published: publishedPage,
           publishedAt: config.currentLanding?.publishedAt,
+          versions: updatedVersions,
+          activeVersionId: activeVersionId,
         },
       };
 
@@ -164,6 +185,8 @@ export default function AdminDashboard() {
           draft: draftPage,
           published: { ...draftPage, status: "published" as const },
           publishedAt: new Date().toISOString(),
+          versions: config.currentLanding?.versions || [], // Preserve versions
+          activeVersionId: activeVersionId, // Preserve active version
         },
       };
 
@@ -189,22 +212,32 @@ export default function AdminDashboard() {
   };
 
   const handleChangeTemplateClick = () => {
+    // Always ask to save before changing template
+    // If editing a saved version, it will update that version
+    // If editing unsaved content, it will create a new version
     setDialogState({ type: "save-before-change", open: true });
   };
 
   const handleSaveAndChangeTemplate = async (name: string, description?: string) => {
-    // Save current version first
-    await handleSaveVersion(name, description);
+    if (activeVersionId) {
+      // If editing a saved version, just save (it will auto-update that version)
+      await handleSaveDraft(draftPage!);
+    } else {
+      // If editing unsaved content, save as new version
+      await handleSaveVersion(name, description);
+    }
     // Then change template
     setMode("select-template");
     setTemplateSelectorOpen(true);
     setDraftPage(null);
+    setActiveVersionId(null);
   };
 
   const handleChangeTemplateWithoutSaving = () => {
     setMode("select-template");
     setTemplateSelectorOpen(true);
     setDraftPage(null);
+    setActiveVersionId(null);
   };
 
   const handleVersionHistoryClick = () => {
@@ -258,6 +291,9 @@ export default function AdminDashboard() {
     };
 
     setDraftPage(restoredPage);
+    setActiveVersionId(version.id); // Set active version ID
+    // Update mode based on restored page type
+    setMode(restoredPage.isMultiPage ? "edit-multi" : "edit-single");
 
     const updatedConfig = {
       ...config,
@@ -266,6 +302,7 @@ export default function AdminDashboard() {
         draft: restoredPage,
         published: publishedPage,
         versions: config.currentLanding?.versions || [],
+        activeVersionId: version.id, // Track which version is active
       },
     };
 
@@ -278,6 +315,8 @@ export default function AdminDashboard() {
 
       if (response.ok) {
         setConfig(updatedConfig);
+        // Show success message
+        setDialogState({ type: "version-applied", open: true });
       }
     } catch (error) {
       console.error("Error applying version:", error);
@@ -360,6 +399,13 @@ export default function AdminDashboard() {
                   <Badge variant={publishedPage ? "default" : "secondary"}>
                     {publishedPage ? "Published" : "Draft"}
                   </Badge>
+                  {activeVersionId && (
+                    <Badge variant="outline" className="border-green-500 text-green-700">
+                      Editing:{" "}
+                      {config?.currentLanding?.versions?.find((v) => v.id === activeVersionId)
+                        ?.name || "Version"}
+                    </Badge>
+                  )}
                   <Button
                     variant="outline"
                     size="sm"
@@ -442,6 +488,7 @@ export default function AdminDashboard() {
         onSaveAndContinue={handleSaveAndChangeTemplate}
         onContinueWithoutSaving={handleChangeTemplateWithoutSaving}
         actionName="change template"
+        hasActiveVersion={!!activeVersionId}
       />
 
       {/* Confirmation Dialogs */}
@@ -474,6 +521,14 @@ export default function AdminDashboard() {
         variant="error"
       />
 
+      <AlertDialog
+        open={dialogState.type === "version-applied" && dialogState.open}
+        onOpenChange={(open) => setDialogState({ ...dialogState, open })}
+        title="Version Applied!"
+        description="The selected version has been restored successfully. You can now continue editing."
+        variant="success"
+      />
+
       {/* Version History Dialog */}
       {draftPage && (
         <VersionHistoryDialog
@@ -481,6 +536,7 @@ export default function AdminDashboard() {
           onOpenChange={(open) => setDialogState({ ...dialogState, open })}
           currentPage={draftPage}
           versions={config?.currentLanding?.versions || []}
+          activeVersionId={activeVersionId}
           onSaveVersion={handleSaveVersion}
           onApplyVersion={handleApplyVersion}
           onDeleteVersion={handleDeleteVersion}
