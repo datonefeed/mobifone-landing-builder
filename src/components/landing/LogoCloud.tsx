@@ -67,7 +67,18 @@ export function LogoCloud({ config }: LogoCloudProps) {
     animation,
   } = config;
 
-  const stagger = useStaggerAnimation(animation, 0.08);
+  // Only use stagger animation for grid layout, not scroll
+  const shouldAnimate = layout === "grid" && animation?.type !== "none";
+  const defaultAnimation = { type: "none" as const, duration: 0, delay: 0 };
+  const animationConfig = (shouldAnimate && animation?.type ? animation : defaultAnimation) as {
+    type: "none" | "fadeIn" | "fadeInUp" | "fadeInDown" | "slideInLeft" | "slideInRight" | "zoomIn";
+    duration: number;
+    delay: number;
+  };
+  const stagger = useStaggerAnimation({
+    animation: animationConfig,
+    staggerDelay: 0.08,
+  });
 
   const primaryColor = "var(--color-primary)";
   const textColor = "var(--color-text)";
@@ -177,24 +188,30 @@ export function LogoCloud({ config }: LogoCloudProps) {
           <>
             {layout === "grid" && (
               <motion.div
-                className={`grid ${getGridColsClass()} ${spacingClass} items-center`}
-                variants={stagger.containerVariants}
-                initial="hidden"
-                animate={stagger.animate}
-                ref={stagger.ref}
+                className={`grid ${getGridColsClass()} ${spacingClass} items-center justify-items-center`}
+                variants={shouldAnimate ? stagger.containerVariants : undefined}
+                initial={shouldAnimate ? "hidden" : undefined}
+                animate={shouldAnimate ? stagger.animate : undefined}
+                ref={shouldAnimate ? stagger.ref : undefined}
               >
                 {logos.map((logo, index) => (
                   <motion.div
                     key={`${logo.name}-${index}`}
-                    className={`flex items-center justify-center h-20 p-4 transition-all ${getHoverEffectClass()} ${logoBgClass}`}
-                    variants={stagger.itemVariants}
+                    className={`flex items-center justify-center w-full h-20 p-4 transition-all duration-300 ${getHoverEffectClass()} ${logoBgClass}`}
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    variants={shouldAnimate ? (stagger.itemVariants as any) : undefined}
                   >
                     {logo.link ? (
-                      <a href={logo.link} target="_blank" rel="noopener noreferrer">
+                      <a
+                        href={logo.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center w-full h-full"
+                      >
                         <img
                           src={logo.url}
                           alt={logo.name}
-                          className={`${logoSizeClass} max-w-full w-auto object-contain ${grayscale ? "grayscale hover:grayscale-0" : ""} transition-all`}
+                          className={`${logoSizeClass} max-w-full w-auto object-contain ${grayscale ? "grayscale hover:grayscale-0" : ""} transition-all duration-300`}
                           style={{ opacity: grayscale ? logoOpacity / 100 : 0.9 }}
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
@@ -206,7 +223,7 @@ export function LogoCloud({ config }: LogoCloudProps) {
                       <img
                         src={logo.url}
                         alt={logo.name}
-                        className={`${logoSizeClass} max-w-full w-auto object-contain ${grayscale ? "grayscale" : ""}`}
+                        className={`${logoSizeClass} max-w-full w-auto object-contain ${grayscale ? "grayscale" : ""} transition-all duration-300`}
                         style={{ opacity: grayscale ? logoOpacity / 100 : 0.9 }}
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
@@ -221,23 +238,45 @@ export function LogoCloud({ config }: LogoCloudProps) {
 
             {/* Scrolling Logos */}
             {layout === "scroll" && (
-              <div className="relative overflow-hidden">
-                <div className="flex animate-scroll">
-                  {[...logos, ...logos].map((logo, index) => (
+              <div className="relative overflow-hidden py-4">
+                <div className="flex animate-scroll whitespace-nowrap">
+                  {/* Duplicate logos 3 times for seamless scrolling */}
+                  {[...logos, ...logos, ...logos].map((logo, index) => (
                     <div
                       key={`${logo.name}-scroll-${index}`}
                       className={`flex-shrink-0 flex items-center justify-center h-20 px-8 ${logoBgClass}`}
+                      style={{ minWidth: "200px" }}
                     >
-                      <img
-                        src={logo.url}
-                        alt={logo.name}
-                        className={`${logoSizeClass} w-auto object-contain ${grayscale ? "grayscale" : ""}`}
-                        style={{ opacity: grayscale ? logoOpacity / 100 : 0.9 }}
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = `https://via.placeholder.com/150x50/cccccc/666666?text=${encodeURIComponent(logo.name)}`;
-                        }}
-                      />
+                      {logo.link ? (
+                        <a
+                          href={logo.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center w-full h-full"
+                        >
+                          <img
+                            src={logo.url}
+                            alt={logo.name}
+                            className={`${logoSizeClass} w-auto object-contain ${grayscale ? "grayscale hover:grayscale-0" : ""} transition-all duration-300`}
+                            style={{ opacity: grayscale ? logoOpacity / 100 : 0.9 }}
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.src = `https://via.placeholder.com/150x50/cccccc/666666?text=${encodeURIComponent(logo.name)}`;
+                            }}
+                          />
+                        </a>
+                      ) : (
+                        <img
+                          src={logo.url}
+                          alt={logo.name}
+                          className={`${logoSizeClass} w-auto object-contain ${grayscale ? "grayscale" : ""} transition-all duration-300`}
+                          style={{ opacity: grayscale ? logoOpacity / 100 : 0.9 }}
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = `https://via.placeholder.com/150x50/cccccc/666666?text=${encodeURIComponent(logo.name)}`;
+                          }}
+                        />
+                      )}
                     </div>
                   ))}
                 </div>
