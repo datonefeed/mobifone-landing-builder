@@ -10,6 +10,7 @@ import PageSettingsModal from "./PageSettingsModal";
 import { ExportImportDialog } from "./ExportImportDialog";
 import { KeyboardShortcutsHelp } from "./KeyboardShortcutsHelp";
 import { HiddenComponentsList } from "./HiddenComponentsList";
+import { ChangeTemplateDialog } from "./ChangeTemplateDialog";
 import ThemeSelector from "./ThemeSelector";
 import CustomThemeCreator from "./CustomThemeCreator";
 import { EditModeProvider } from "@/contexts/EditModeContext";
@@ -59,6 +60,9 @@ export function EditableLandingPage({ page, theme, config, onSave }: EditableLan
   const [helpOpen, setHelpOpen] = useState(false);
   const [themeSelectorOpen, setThemeSelectorOpen] = useState(false);
   const [customThemeCreatorOpen, setCustomThemeCreatorOpen] = useState(false);
+  const [changeTemplateDialogOpen, setChangeTemplateDialogOpen] = useState(false);
+  const [componentToChangeTemplate, setComponentToChangeTemplate] =
+    useState<ComponentConfig | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
   const { toast } = useToast();
 
@@ -358,6 +362,211 @@ export function EditableLandingPage({ page, theme, config, onSave }: EditableLan
       title: "Duplicated",
       description: "Component duplicated successfully",
     });
+  };
+
+  // Open change template dialog
+  const handleOpenChangeTemplate = (componentId: string) => {
+    const component = editingPage.components.find((c) => c.id === componentId);
+    if (component) {
+      setComponentToChangeTemplate(component);
+      setChangeTemplateDialogOpen(true);
+    }
+  };
+
+  // Change template for a component with smart merging
+  const handleChangeTemplate = (newConfig: Partial<ComponentConfig>) => {
+    if (!componentToChangeTemplate) return;
+
+    // Smart merge: Keep user's content (text, images, etc.) from old config
+    const mergedConfig = mergeConfigs(
+      componentToChangeTemplate.config as Record<string, unknown>,
+      (newConfig.config || {}) as Record<string, unknown>
+    );
+
+    const updatedComponents = editingPage.components.map((c) =>
+      c.id === componentToChangeTemplate.id
+        ? {
+            ...c,
+            ...newConfig,
+            config: mergedConfig, // Use merged config instead of completely replacing
+          }
+        : c
+    );
+
+    // Auto-sync header tabs if header exists
+    const syncedComponents = syncHeaderTabs(updatedComponents);
+
+    setEditingPage({
+      ...editingPage,
+      components: syncedComponents,
+    });
+
+    toast({
+      title: "🔄 Template Changed",
+      description: `Component template updated while preserving your content`,
+      duration: 3000,
+    });
+
+    setComponentToChangeTemplate(null);
+    setChangeTemplateDialogOpen(false);
+  };
+
+  // Helper function to merge old user content with new template structure
+  const mergeConfigs = (
+    oldConfig: Record<string, unknown>,
+    newConfig: Record<string, unknown>
+  ): Record<string, unknown> => {
+    if (!oldConfig || !newConfig) return newConfig;
+
+    const merged = { ...newConfig }; // Start with new template structure
+
+    // Preserve important user-edited fields
+    const preserveFields = [
+      "title",
+      "subtitle",
+      "description",
+      "content",
+      "image",
+      "logo",
+      "tagline",
+      "email",
+      "phone",
+      "address",
+      "copyright",
+    ];
+
+    // Copy preserved fields from old config if they exist and are not empty
+    preserveFields.forEach((field) => {
+      if (oldConfig[field] && oldConfig[field] !== "") {
+        merged[field] = oldConfig[field];
+      }
+    });
+
+    // Special handling for arrays (features, testimonials, plans, etc.)
+    if (Array.isArray(oldConfig.features) && Array.isArray(newConfig.features)) {
+      // Keep old features if user has customized them, otherwise use new template
+      if (oldConfig.features.length > 0) {
+        merged.features = oldConfig.features;
+      }
+    }
+
+    if (Array.isArray(oldConfig.testimonials) && Array.isArray(newConfig.testimonials)) {
+      if (oldConfig.testimonials.length > 0) {
+        merged.testimonials = oldConfig.testimonials;
+      }
+    }
+
+    if (Array.isArray(oldConfig.plans) && Array.isArray(newConfig.plans)) {
+      if (oldConfig.plans.length > 0) {
+        merged.plans = oldConfig.plans;
+      }
+    }
+
+    if (Array.isArray(oldConfig.stats) && Array.isArray(newConfig.stats)) {
+      if (oldConfig.stats.length > 0) {
+        merged.stats = oldConfig.stats;
+      }
+    }
+
+    if (Array.isArray(oldConfig.faqs) && Array.isArray(newConfig.faqs)) {
+      if (oldConfig.faqs.length > 0) {
+        merged.faqs = oldConfig.faqs;
+      }
+    }
+
+    if (Array.isArray(oldConfig.members) && Array.isArray(newConfig.members)) {
+      if (oldConfig.members.length > 0) {
+        merged.members = oldConfig.members;
+      }
+    }
+
+    if (Array.isArray(oldConfig.images) && Array.isArray(newConfig.images)) {
+      if (oldConfig.images.length > 0) {
+        merged.images = oldConfig.images;
+      }
+    }
+
+    if (Array.isArray(oldConfig.logos) && Array.isArray(newConfig.logos)) {
+      if (oldConfig.logos.length > 0) {
+        merged.logos = oldConfig.logos;
+      }
+    }
+
+    if (Array.isArray(oldConfig.columns) && Array.isArray(newConfig.columns)) {
+      if (oldConfig.columns.length > 0) {
+        merged.columns = oldConfig.columns;
+      }
+    }
+
+    if (Array.isArray(oldConfig.tabs) && Array.isArray(newConfig.tabs)) {
+      if (oldConfig.tabs.length > 0) {
+        merged.tabs = oldConfig.tabs;
+      }
+    }
+
+    if (Array.isArray(oldConfig.fields) && Array.isArray(newConfig.fields)) {
+      if (oldConfig.fields.length > 0) {
+        merged.fields = oldConfig.fields;
+      }
+    }
+
+    // Preserve CTA buttons if user customized them
+    if (oldConfig.primaryCTA) {
+      merged.primaryCTA = oldConfig.primaryCTA;
+    }
+
+    if (oldConfig.secondaryCTA) {
+      merged.secondaryCTA = oldConfig.secondaryCTA;
+    }
+
+    if (oldConfig.cta) {
+      merged.cta = oldConfig.cta;
+    }
+
+    if (oldConfig.ctaButton) {
+      merged.ctaButton = oldConfig.ctaButton;
+    }
+
+    // Preserve background if customized (but allow new template's background if old was default)
+    if (oldConfig.background && typeof oldConfig.background === "object") {
+      const bg = oldConfig.background as { type?: string; color?: string };
+      if (bg.type && bg.type !== "solid") {
+        merged.background = oldConfig.background;
+      } else if (bg.color && bg.color !== "#ffffff" && bg.color !== "#f9fafb") {
+        // Keep custom colors
+        merged.background = oldConfig.background;
+      }
+    }
+
+    // Preserve animation settings if user customized them
+    if (oldConfig.animation && typeof oldConfig.animation === "object") {
+      const anim = oldConfig.animation as { type?: string };
+      if (anim.type && anim.type !== "none") {
+        merged.animation = oldConfig.animation;
+      }
+    }
+
+    // Preserve spacing if customized
+    if (oldConfig.spacing) {
+      merged.spacing = oldConfig.spacing;
+    }
+
+    // Preserve contactInfo if exists
+    if (oldConfig.contactInfo) {
+      merged.contactInfo = oldConfig.contactInfo;
+    }
+
+    // Preserve social links if exists
+    if (oldConfig.social && Array.isArray(oldConfig.social) && oldConfig.social.length > 0) {
+      merged.social = oldConfig.social;
+    }
+
+    // Preserve video URL if exists
+    if (oldConfig.videoUrl) {
+      merged.videoUrl = oldConfig.videoUrl;
+    }
+
+    return merged;
   };
 
   // Save page settings
@@ -785,6 +994,7 @@ export function EditableLandingPage({ page, theme, config, onSave }: EditableLan
                       onToggleVisibility={() => handleToggleVisibility(component.id)}
                       onDelete={() => handleDeleteComponent(component.id)}
                       onDuplicate={() => handleDuplicateComponent(component.id)}
+                      onChangeTemplate={() => handleOpenChangeTemplate(component.id)}
                       onMoveUp={() => handleMoveUp(component.id)}
                       onMoveDown={() => handleMoveDown(component.id)}
                       canMoveUp={index > 0}
@@ -886,6 +1096,19 @@ export function EditableLandingPage({ page, theme, config, onSave }: EditableLan
           onOpenChange={setCustomThemeCreatorOpen}
           onSaveTheme={handleSaveCustomTheme}
         />
+
+        {/* Change Template Dialog */}
+        {componentToChangeTemplate && (
+          <ChangeTemplateDialog
+            isOpen={changeTemplateDialogOpen}
+            onClose={() => {
+              setChangeTemplateDialogOpen(false);
+              setComponentToChangeTemplate(null);
+            }}
+            component={componentToChangeTemplate}
+            onChangeTemplate={handleChangeTemplate}
+          />
+        )}
 
         {/* Sidebar Open Indicator */}
         {selectedComponentId && (

@@ -1,7 +1,17 @@
 "use client";
 
 import { ComponentConfig } from "@/types/landing";
-import { Eye, EyeOff, Trash2, GripVertical, Edit, Copy, ArrowUp, ArrowDown } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  Trash2,
+  GripVertical,
+  Edit,
+  Copy,
+  ArrowUp,
+  ArrowDown,
+  RefreshCw,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSortable } from "@dnd-kit/sortable";
 
@@ -12,6 +22,7 @@ interface EditableBlockProps {
   onToggleVisibility: () => void;
   onDelete: () => void;
   onDuplicate: () => void;
+  onChangeTemplate?: () => void;
   onMoveUp?: () => void;
   onMoveDown?: () => void;
   canMoveUp?: boolean;
@@ -30,6 +41,7 @@ export function EditableBlock({
   onToggleVisibility,
   onDelete,
   onDuplicate,
+  onChangeTemplate,
   onMoveUp,
   onMoveDown,
   canMoveUp = true,
@@ -169,6 +181,22 @@ export function EditableBlock({
           )}
 
           <div className="w-px h-4 bg-gray-300" />
+
+          {/* Change Template Button */}
+          {onChangeTemplate && (
+            <Button
+              size="sm"
+              variant="ghost"
+              className="h-7 w-7 p-0 hover:bg-purple-50 hover:text-purple-600"
+              onClick={(e) => {
+                e.stopPropagation();
+                onChangeTemplate();
+              }}
+              title="Change Template"
+            >
+              <RefreshCw className="h-3.5 w-3.5" />
+            </Button>
+          )}
 
           {/* Edit Button */}
           <Button

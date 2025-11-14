@@ -125,8 +125,11 @@ export function Testimonials({ config }: TestimonialsProps) {
             className="w-full max-w-6xl mx-auto"
           >
             <CarouselContent>
-              {testimonials.map((testimonial) => (
-                <CarouselItem key={testimonial.id} className="md:basis-1/2 lg:basis-1/3">
+              {testimonials?.map((testimonial, index) => (
+                <CarouselItem
+                  key={testimonial.id || `testimonial-${index}`}
+                  className="md:basis-1/2 lg:basis-1/3"
+                >
                   <div className="p-1 h-full">{renderTestimonialCard(testimonial)}</div>
                 </CarouselItem>
               ))}
@@ -142,9 +145,9 @@ export function Testimonials({ config }: TestimonialsProps) {
             variants={stagger.containerVariants}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
-            {testimonials.map((testimonial) => (
+            {testimonials?.map((testimonial, index) => (
               <motion.div
-                key={testimonial.id}
+                key={testimonial.id || `testimonial-${index}`}
                 variants={{
                   hidden: { opacity: 0, y: 20 },
                   visible: {
