@@ -150,6 +150,7 @@ export default function MultiPageEditor({ page, config, onSave }: MultiPageEdito
             subPages={subPages}
             onUpdate={handleUpdateSubPages}
             onEditSubPage={handleEditSubPage}
+            mainPageComponents={editingPage.components}
           />
         </div>
       </TabsContent>

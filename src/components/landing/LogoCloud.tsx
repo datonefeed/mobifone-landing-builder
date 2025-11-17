@@ -5,6 +5,7 @@ import { Theme } from "@/types/landing";
 import { BackgroundConfig, getBackgroundStyle, isBackgroundDark } from "@/lib/background-utils";
 import { motion } from "framer-motion";
 import { useStaggerAnimation } from "@/hooks/use-scroll-animation";
+import { useEditMode } from "@/contexts/EditModeContext";
 
 interface LogoItem {
   name: string;
@@ -49,6 +50,8 @@ interface LogoCloudProps {
 }
 
 export function LogoCloud({ config }: LogoCloudProps) {
+  const { isEditMode } = useEditMode();
+
   const {
     title,
     subtitle,
@@ -67,8 +70,8 @@ export function LogoCloud({ config }: LogoCloudProps) {
     animation,
   } = config;
 
-  // Only use stagger animation for grid layout, not scroll
-  const shouldAnimate = layout === "grid" && animation?.type !== "none";
+  // Only use stagger animation for grid layout, not scroll, and not in edit mode
+  const shouldAnimate = !isEditMode && layout === "grid" && animation?.type !== "none";
   const defaultAnimation = { type: "none" as const, duration: 0, delay: 0 };
   const animationConfig = (shouldAnimate && animation?.type ? animation : defaultAnimation) as {
     type: "none" | "fadeIn" | "fadeInUp" | "fadeInDown" | "slideInLeft" | "slideInRight" | "zoomIn";
@@ -88,6 +91,15 @@ export function LogoCloud({ config }: LogoCloudProps) {
   const bodyFont = "var(--font-body)";
 
   const isDarkBg = isBackgroundDark(background);
+
+  // Create fallback SVG for failed images
+  const createFallbackSVG = (name: string) => {
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="150" height="50" viewBox="0 0 150 50">
+      <rect width="150" height="50" fill="#e5e7eb"/>
+      <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="12" fill="#6b7280" text-anchor="middle" dominant-baseline="middle">${name}</text>
+    </svg>`;
+    return `data:image/svg+xml;base64,${btoa(svg)}`;
+  };
 
   const paddingClass =
     spacing?.padding === "xl"
@@ -215,7 +227,8 @@ export function LogoCloud({ config }: LogoCloudProps) {
                           style={{ opacity: grayscale ? logoOpacity / 100 : 0.9 }}
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
-                            target.src = `https://via.placeholder.com/150x50/cccccc/666666?text=${encodeURIComponent(logo.name)}`;
+                            target.onerror = null; // Prevent infinite loop
+                            target.src = createFallbackSVG(logo.name);
                           }}
                         />
                       </a>
@@ -227,7 +240,8 @@ export function LogoCloud({ config }: LogoCloudProps) {
                         style={{ opacity: grayscale ? logoOpacity / 100 : 0.9 }}
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
-                          target.src = `https://via.placeholder.com/150x50/cccccc/666666?text=${encodeURIComponent(logo.name)}`;
+                          target.onerror = null; // Prevent infinite loop
+                          target.src = createFallbackSVG(logo.name);
                         }}
                       />
                     )}
@@ -261,7 +275,8 @@ export function LogoCloud({ config }: LogoCloudProps) {
                             style={{ opacity: grayscale ? logoOpacity / 100 : 0.9 }}
                             onError={(e) => {
                               const target = e.target as HTMLImageElement;
-                              target.src = `https://via.placeholder.com/150x50/cccccc/666666?text=${encodeURIComponent(logo.name)}`;
+                              target.onerror = null; // Prevent infinite loop
+                              target.src = createFallbackSVG(logo.name);
                             }}
                           />
                         </a>
@@ -273,7 +288,8 @@ export function LogoCloud({ config }: LogoCloudProps) {
                           style={{ opacity: grayscale ? logoOpacity / 100 : 0.9 }}
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
-                            target.src = `https://via.placeholder.com/150x50/cccccc/666666?text=${encodeURIComponent(logo.name)}`;
+                            target.onerror = null; // Prevent infinite loop
+                            target.src = createFallbackSVG(logo.name);
                           }}
                         />
                       )}

@@ -14,6 +14,7 @@ interface MultiPageNavigationProps {
   showIcons?: boolean;
   sticky?: boolean;
   theme?: Theme;
+  mainPageTitle?: string; // Title for main page
 }
 
 export default function MultiPageNavigation({
@@ -25,6 +26,7 @@ export default function MultiPageNavigation({
   showIcons = true,
   sticky = true,
   theme,
+  mainPageTitle = "Home",
 }: MultiPageNavigationProps) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const visiblePages = subPages.filter((p) => p.visible);
@@ -43,6 +45,26 @@ export default function MultiPageNavigation({
       >
         <div className="container mx-auto">
           <div className="flex gap-1 overflow-x-auto scrollbar-hide">
+            {/* Main Page Tab */}
+            <button
+              onClick={() => onNavigate("main")}
+              className={cn(
+                "flex items-center gap-2 px-6 py-4 border-b-2 transition-all whitespace-nowrap font-medium",
+                activePageId === "main"
+                  ? "border-current text-current"
+                  : "border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300"
+              )}
+              style={
+                activePageId === "main" && theme?.colors.primary
+                  ? { color: theme.colors.primary, borderColor: theme.colors.primary }
+                  : undefined
+              }
+            >
+              {showIcons && <span className="text-lg">🏠</span>}
+              <span>{mainPageTitle}</span>
+            </button>
+
+            {/* SubPages Tabs */}
             {visiblePages.map((page) => {
               const isActive = page.id === activePageId;
               return (
@@ -78,6 +100,26 @@ export default function MultiPageNavigation({
       <nav className={cn("bg-gray-50 border-b z-50", sticky && "sticky top-0")}>
         <div className="container mx-auto py-4">
           <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+            {/* Main Page Pill */}
+            <button
+              onClick={() => onNavigate("main")}
+              className={cn(
+                "flex items-center gap-2 px-4 py-2 rounded-full transition-all whitespace-nowrap font-medium",
+                activePageId === "main"
+                  ? "text-white shadow-md"
+                  : "bg-white text-gray-700 hover:bg-gray-100"
+              )}
+              style={
+                activePageId === "main" && theme?.colors.primary
+                  ? { backgroundColor: theme.colors.primary }
+                  : undefined
+              }
+            >
+              {showIcons && <span className="text-lg">🏠</span>}
+              <span>{mainPageTitle}</span>
+            </button>
+
+            {/* SubPages Pills */}
             {visiblePages.map((page) => {
               const isActive = page.id === activePageId;
               return (
@@ -107,6 +149,12 @@ export default function MultiPageNavigation({
 
   // Dropdown Style
   if (style === "dropdown") {
+    // Get active page display (could be main or a subpage)
+    const activeDisplay =
+      activePageId === "main"
+        ? { icon: "🏠", title: mainPageTitle }
+        : activePage || { icon: "", title: "Select Page" };
+
     return (
       <nav className={cn("border-b bg-white/80 backdrop-blur-sm z-50", sticky && "sticky top-0")}>
         <div className="container mx-auto py-3">
@@ -119,10 +167,10 @@ export default function MultiPageNavigation({
               }}
             >
               <div className="flex items-center gap-2">
-                {showIcons && activePage?.icon && (
-                  <span className="text-lg">{activePage.icon}</span>
+                {showIcons && activeDisplay.icon && (
+                  <span className="text-lg">{activeDisplay.icon}</span>
                 )}
-                <span className="font-medium">{activePage?.title || "Select Page"}</span>
+                <span className="font-medium">{activeDisplay.title}</span>
               </div>
               <ChevronDown
                 className={cn("h-4 w-4 transition-transform", dropdownOpen && "rotate-180")}
@@ -133,6 +181,30 @@ export default function MultiPageNavigation({
               <>
                 <div className="fixed inset-0 z-10" onClick={() => setDropdownOpen(false)} />
                 <div className="absolute top-full left-0 mt-1 w-full md:w-64 bg-white border rounded-lg shadow-lg z-20 overflow-hidden">
+                  {/* Main Page Option */}
+                  <button
+                    onClick={() => {
+                      onNavigate("main");
+                      setDropdownOpen(false);
+                    }}
+                    className={cn(
+                      "flex items-center gap-2 w-full px-4 py-3 text-left transition-colors",
+                      activePageId === "main" ? "bg-opacity-10 font-medium" : "hover:bg-gray-50"
+                    )}
+                    style={
+                      activePageId === "main" && theme?.colors.primary
+                        ? {
+                            backgroundColor: `${theme.colors.primary}10`,
+                            color: theme.colors.primary,
+                          }
+                        : undefined
+                    }
+                  >
+                    {showIcons && <span className="text-lg">🏠</span>}
+                    <div>{mainPageTitle}</div>
+                  </button>
+
+                  {/* SubPages Options */}
                   {visiblePages.map((page) => {
                     const isActive = page.id === activePageId;
                     return (
@@ -189,6 +261,26 @@ export default function MultiPageNavigation({
         }}
       >
         <div className="p-4 space-y-1">
+          {/* Main Page Button */}
+          <button
+            onClick={() => onNavigate("main")}
+            className={cn(
+              "flex items-center gap-3 w-full px-4 py-3 rounded-lg transition-all text-left font-medium",
+              activePageId === "main" ? "text-white shadow-md" : "text-gray-700 hover:bg-gray-100"
+            )}
+            style={
+              activePageId === "main" && theme?.colors.primary
+                ? { backgroundColor: theme.colors.primary }
+                : undefined
+            }
+          >
+            {showIcons && <span className="text-xl">🏠</span>}
+            <div className="flex-1">
+              <div>{mainPageTitle}</div>
+            </div>
+          </button>
+
+          {/* SubPages Buttons */}
           {visiblePages.map((page) => {
             const isActive = page.id === activePageId;
             return (

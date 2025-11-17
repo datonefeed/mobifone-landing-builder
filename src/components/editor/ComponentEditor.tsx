@@ -33,6 +33,7 @@ interface ComponentEditorProps {
   allComponents?: ComponentConfig[]; // All components in current page
   subPages?: SubPage[]; // Subpages for navigation
   pageSlug?: string; // Current page slug
+  isMultiPage?: boolean; // Whether this is a multi-page landing
 }
 
 /**
@@ -46,6 +47,7 @@ export function ComponentEditor({
   allComponents = [],
   subPages = [],
   pageSlug,
+  isMultiPage = false,
 }: ComponentEditorProps) {
   const [config, setConfig] = useState(component.config);
   const [isLoading, setIsLoading] = useState(false);
@@ -219,6 +221,7 @@ export function ComponentEditor({
                   allComponents={allComponents}
                   subPages={subPages}
                   pageSlug={pageSlug}
+                  isMultiPage={isMultiPage}
                 />
               )}
 

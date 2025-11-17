@@ -20,6 +20,15 @@ interface LogoArrayEditorProps {
 export function LogoArrayEditor({ logos = [], onChange }: LogoArrayEditorProps) {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
+  // Create fallback SVG for failed images
+  const createFallbackSVG = (name: string) => {
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="150" height="50" viewBox="0 0 150 50">
+      <rect width="150" height="50" fill="#e5e7eb"/>
+      <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="12" fill="#6b7280" text-anchor="middle" dominant-baseline="middle">${name}</text>
+    </svg>`;
+    return `data:image/svg+xml;base64,${btoa(svg)}`;
+  };
+
   const handleAdd = () => {
     const newLogo: LogoItem = {
       name: "New Logo",
@@ -85,7 +94,8 @@ export function LogoArrayEditor({ logos = [], onChange }: LogoArrayEditorProps) 
                   className="max-w-full max-h-full object-contain"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    target.src = `https://via.placeholder.com/150x50/cccccc/666666?text=${encodeURIComponent(logo.name || "Logo")}`;
+                    target.onerror = null; // Prevent infinite loop
+                    target.src = createFallbackSVG(logo.name || "Logo");
                   }}
                 />
               </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { SubPage } from "@/types/landing";
+import { SubPage, ComponentConfig } from "@/types/landing";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,14 +25,21 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
 
 interface SubPageManagerProps {
   subPages: SubPage[];
   onUpdate: (subPages: SubPage[]) => void;
   onEditSubPage: (subPageId: string) => void;
+  mainPageComponents?: ComponentConfig[]; // Template components to inherit
 }
 
-export default function SubPageManager({ subPages, onUpdate, onEditSubPage }: SubPageManagerProps) {
+export default function SubPageManager({
+  subPages,
+  onUpdate,
+  onEditSubPage,
+  mainPageComponents = [],
+}: SubPageManagerProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingSubPage, setEditingSubPage] = useState<SubPage | null>(null);
   const [formData, setFormData] = useState({
@@ -41,6 +48,7 @@ export default function SubPageManager({ subPages, onUpdate, onEditSubPage }: Su
     icon: "",
     description: "",
   });
+  const { toast } = useToast();
 
   const generateSlug = (title: string) => {
     return title
@@ -87,19 +95,38 @@ export default function SubPageManager({ subPages, onUpdate, onEditSubPage }: Su
           : sp
       );
       onUpdate(updated);
+
+      toast({
+        title: "✅ Đã cập nhật",
+        description: `Thông tin của "${formData.title}" đã được cập nhật`,
+        duration: 3000,
+      });
     } else {
-      // Create new
+      // Create new - inherit components from main page (deep copy with new IDs)
+      const inheritedComponents = mainPageComponents.map((comp, index) => ({
+        ...comp,
+        id: `comp-${Date.now()}-${index}-${Math.random().toString(36).substr(2, 9)}`,
+        order: index,
+        config: JSON.parse(JSON.stringify(comp.config)), // Deep copy config to avoid reference issues
+      }));
+
       const newSubPage: SubPage = {
         id: `subpage-${Date.now()}`,
         title: formData.title,
         slug: formData.slug || generateSlug(formData.title),
         icon: formData.icon,
         description: formData.description,
-        components: [],
+        components: inheritedComponents, // Inherit template from main page
         order: subPages.length,
         visible: true,
       };
       onUpdate([...subPages, newSubPage]);
+
+      toast({
+        title: "✅ Trang mới đã được tạo",
+        description: `"${formData.title}" đã kế thừa ${inheritedComponents.length} components từ trang chính`,
+        duration: 4000,
+      });
     }
 
     setDialogOpen(false);
@@ -243,7 +270,7 @@ export default function SubPageManager({ subPages, onUpdate, onEditSubPage }: Su
             <DialogDescription>
               {editingSubPage
                 ? "Cập nhật thông tin trang con"
-                : "Thêm một trang con vào landing page"}
+                : `Thêm một trang con vào landing page. Trang mới sẽ kế thừa ${mainPageComponents.length} components từ trang chính.`}
             </DialogDescription>
           </DialogHeader>
 
@@ -298,6 +325,17 @@ export default function SubPageManager({ subPages, onUpdate, onEditSubPage }: Su
                 placeholder="Mô tả ngắn về trang này"
               />
             </div>
+
+            {/* Info box for new subpage */}
+            {!editingSubPage && mainPageComponents.length > 0 && (
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                <p className="text-sm text-blue-800">
+                  <strong>💡 Lưu ý:</strong> Trang mới sẽ tự động kế thừa{" "}
+                  {mainPageComponents.length} components từ trang chính. Bạn có thể chỉnh sửa sau
+                  khi tạo.
+                </p>
+              </div>
+            )}
           </div>
 
           <DialogFooter>

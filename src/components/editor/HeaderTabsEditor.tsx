@@ -15,6 +15,7 @@ interface HeaderTabsEditorProps {
   allComponents?: ComponentConfig[];
   subPages?: SubPage[];
   pageSlug?: string;
+  isMultiPage?: boolean;
 }
 
 export function HeaderTabsEditor({
@@ -23,6 +24,7 @@ export function HeaderTabsEditor({
   allComponents = [],
   subPages = [],
   pageSlug,
+  isMultiPage = false,
 }: HeaderTabsEditorProps) {
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
 
@@ -124,6 +126,7 @@ export function HeaderTabsEditor({
                   components={allComponents}
                   subPages={subPages}
                   pageSlug={pageSlug}
+                  isMultiPage={isMultiPage}
                 />
               </div>
             </div>

@@ -238,18 +238,22 @@ export function EditableLandingPage({ page, theme, config, onSave }: EditableLan
       link: `#${comp.id}`,
     }));
 
-    // Add tabs for subpages if any (page links)
-    const subPageTabs =
-      editingPage.subPages
-        ?.filter((sp) => sp.visible)
-        .map((sp) => ({
-          id: sp.id,
-          text: sp.title,
-          link: `/${editingPage.slug}/${sp.slug}`,
-        })) || [];
+    // For multi-page landing: Add subpage tabs to header
+    // Subpages should link directly to their routes (e.g., /blog, /pricing)
+    let newTabs = [...componentTabs];
 
-    // Combine component tabs and subpage tabs
-    const newTabs = [...componentTabs, ...subPageTabs];
+    // Add subpage tabs if it's a multi-page landing
+    if (editingPage.isMultiPage) {
+      const subPageTabs =
+        editingPage.subPages
+          ?.filter((sp) => sp.visible)
+          .map((sp) => ({
+            id: sp.id,
+            text: sp.title,
+            link: `/${sp.slug}`, // Direct route to subpage
+          })) || [];
+      newTabs = [...componentTabs, ...subPageTabs];
+    }
 
     // Update header config with new tabs
     const updatedHeader = {
@@ -1059,6 +1063,7 @@ export function EditableLandingPage({ page, theme, config, onSave }: EditableLan
             allComponents={editingPage.components}
             subPages={editingPage.subPages || []}
             pageSlug={editingPage.slug}
+            isMultiPage={editingPage.isMultiPage}
           />
         )}
 

@@ -19,6 +19,7 @@ interface LinkSelectorProps {
   components?: ComponentConfig[]; // Available components for hash links
   subPages?: SubPage[]; // Available subpages for navigation
   pageSlug?: string; // Current page slug for building subpage URLs
+  isMultiPage?: boolean; // Whether this is a multi-page landing
 }
 
 /**
@@ -36,6 +37,7 @@ export function LinkSelector({
   components = [],
   subPages = [],
   pageSlug,
+  isMultiPage = false,
 }: LinkSelectorProps) {
   // Generate available link options
   const linkOptions: Array<{ value: string; label: string; group: string }> = [];
@@ -70,12 +72,15 @@ export function LinkSelector({
     });
 
   // Add subpage links
-  if (pageSlug && subPages.length > 0) {
+  if (subPages.length > 0) {
     subPages
       .filter((sp) => sp.visible)
       .forEach((sp) => {
+        // For multi-page landing: direct route (/blog)
+        // For single-page landing: nested route (/pageSlug/blog)
+        const linkValue = isMultiPage ? `/${sp.slug}` : `/${pageSlug}/${sp.slug}`;
         linkOptions.push({
-          value: `/${pageSlug}/${sp.slug}`,
+          value: linkValue,
           label: `${sp.title} (navigate to page)`,
           group: "Pages",
         });
