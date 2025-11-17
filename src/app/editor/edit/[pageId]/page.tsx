@@ -1,4 +1,4 @@
-import { LandingPageEditor } from "@/components/admin/LandingPageEditor";
+import { LandingPageEditor } from "@/components/editor/LandingPageEditor";
 
 interface PageProps {
   params: {

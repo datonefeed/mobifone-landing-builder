@@ -10,13 +10,28 @@ interface ImageUploadProps {
   onChange: (url: string) => void;
   label?: string;
   description?: string;
+  showDefaultLogos?: boolean; // Show default logo options for headers
 }
 
-export function ImageUpload({ value, onChange, label, description }: ImageUploadProps) {
+export function ImageUpload({
+  value,
+  onChange,
+  label,
+  description,
+  showDefaultLogos = false,
+}: ImageUploadProps) {
   const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState(value || "");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+
+  // Default logo options
+  const defaultLogos = [
+    { name: "Modern", url: "/assets/images/default-logo.svg" },
+    { name: "Geometric", url: "/assets/images/logo-modern.svg" },
+    { name: "Tech", url: "/assets/images/logo-tech.svg" },
+    { name: "Simple", url: "/assets/images/logo-simple.svg" },
+  ];
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -97,6 +112,40 @@ export function ImageUpload({ value, onChange, label, description }: ImageUpload
       {label && <label className="text-sm font-medium block">{label}</label>}
       {description && <p className="text-sm text-gray-500">{description}</p>}
 
+      {/* Default logo options (only show for header logos) */}
+      {showDefaultLogos && !preview && (
+        <div className="mb-3">
+          <p className="text-xs font-medium text-gray-600 mb-2">
+            Quick Start - Choose a default logo:
+          </p>
+          <div className="grid grid-cols-2 gap-2">
+            {defaultLogos.map((logo) => (
+              <button
+                key={logo.url}
+                type="button"
+                onClick={() => {
+                  setPreview(logo.url);
+                  onChange(logo.url);
+                  toast({
+                    title: "Logo Selected",
+                    description: `${logo.name} logo selected`,
+                  });
+                }}
+                className="border-2 border-gray-200 rounded-lg p-3 hover:border-blue-400 hover:bg-blue-50 transition-all flex flex-col items-center gap-1 group"
+              >
+                <img src={logo.url} alt={logo.name} className="h-8 w-auto object-contain" />
+                <span className="text-xs text-gray-600 group-hover:text-blue-600 font-medium">
+                  {logo.name}
+                </span>
+              </button>
+            ))}
+          </div>
+          <div className="text-center my-2">
+            <span className="text-xs text-gray-400">or upload your own</span>
+          </div>
+        </div>
+      )}
+
       <div className="space-y-2">
         {preview ? (
           <div className="relative border border-gray-200 rounded-lg overflow-hidden bg-gray-50">
@@ -167,6 +216,35 @@ export function ImageUpload({ value, onChange, label, description }: ImageUpload
               <X className="h-4 w-4" />
               Remove
             </Button>
+          </div>
+        )}
+
+        {/* Show default logos even when preview exists (for easy switching) */}
+        {showDefaultLogos && preview && (
+          <div className="mt-3 pt-3 border-t border-gray-200">
+            <p className="text-xs font-medium text-gray-600 mb-2">Or choose a different default:</p>
+            <div className="grid grid-cols-4 gap-2">
+              {defaultLogos.map((logo) => (
+                <button
+                  key={logo.url}
+                  type="button"
+                  onClick={() => {
+                    setPreview(logo.url);
+                    onChange(logo.url);
+                    toast({
+                      title: "Logo Changed",
+                      description: `Switched to ${logo.name} logo`,
+                    });
+                  }}
+                  className={`border-2 rounded p-2 hover:border-blue-400 transition-all flex flex-col items-center gap-1 ${
+                    preview === logo.url ? "border-blue-500 bg-blue-50" : "border-gray-200"
+                  }`}
+                >
+                  <img src={logo.url} alt={logo.name} className="h-6 w-auto object-contain" />
+                  <span className="text-[10px] text-gray-600">{logo.name}</span>
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </div>

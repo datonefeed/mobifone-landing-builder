@@ -1,0 +1,19 @@
+<svg width="160" height="40" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Modern minimalist logo -->
+    <defs>
+        <linearGradient id="modernGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#667EEA;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#764BA2;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+
+    <!-- Logo mark - Abstract M shape -->
+    <path d="M 5 25 L 5 10 L 15 20 L 25 10 L 25 25 L 20 25 L 20 16 L 15 22 L 10 16 L 10 25 Z"
+        fill="url(#modernGradient)" />
+
+    <!-- Brand text -->
+    <text x="35" y="26" font-family="'Inter', 'Segoe UI', Arial, sans-serif"
+        font-size="18" font-weight="600" fill="#1A202C" letter-spacing="-0.3">
+        MODERN BRAND
+    </text>
+</svg>

@@ -290,6 +290,19 @@ export function EditableLandingPage({ page, theme, config, onSave }: EditableLan
   const handleAddComponent = (component: ComponentConfig) => {
     // Header components should always be at the top
     if (component.type === "header") {
+      // Check if header already exists
+      const hasHeader = editingPage.components.some((c) => c.type === "header");
+      if (hasHeader) {
+        toast({
+          title: "⚠️ Cannot Add Header",
+          description:
+            "Only one header is allowed per page. Please remove the existing header first.",
+          variant: "destructive",
+          duration: 4000,
+        });
+        return;
+      }
+
       const newComponent = {
         ...component,
         order: 0,
@@ -1054,6 +1067,7 @@ export function EditableLandingPage({ page, theme, config, onSave }: EditableLan
           open={templatesOpen}
           onOpenChange={setTemplatesOpen}
           onAddComponent={handleAddComponent}
+          existingComponents={editingPage.components}
         />
 
         {/* Page Settings Modal */}

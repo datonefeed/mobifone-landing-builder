@@ -22,16 +22,21 @@ interface ComponentTemplatesPanelProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onAddComponent: (component: ComponentConfig) => void;
+  existingComponents?: ComponentConfig[];
 }
 
 export default function ComponentTemplatesPanel({
   open,
   onOpenChange,
   onAddComponent,
+  existingComponents = [],
 }: ComponentTemplatesPanelProps) {
   const [step, setStep] = useState<"category" | "variant">("category");
   const [selectedCategory, setSelectedCategory] = useState<ComponentCategory | null>(null);
   const [selectedVariantIndex, setSelectedVariantIndex] = useState<number | null>(null);
+
+  // Check if header already exists
+  const hasHeader = existingComponents.some((comp) => comp.type === "header");
 
   const handleSelectCategory = (category: ComponentCategory) => {
     setSelectedCategory(category);
@@ -96,29 +101,49 @@ export default function ComponentTemplatesPanel({
           {/* STEP 1: Category Selection */}
           {step === "category" && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {componentCategories.map((category, index) => (
-                <Card
-                  key={index}
-                  className="cursor-pointer transition-all hover:shadow-lg hover:border-blue-500 group"
-                  onClick={() => handleSelectCategory(category)}
-                >
-                  <CardHeader>
-                    <div className="flex items-start gap-3">
-                      <div className="text-4xl">{category.icon}</div>
-                      <div className="flex-1">
-                        <CardTitle className="text-lg group-hover:text-blue-600 transition-colors">
-                          {category.name}
-                        </CardTitle>
-                        <CardDescription className="mt-1">{category.description}</CardDescription>
-                        <div className="mt-3 text-xs text-blue-600 font-medium">
-                          {category.variants.length} variant
-                          {category.variants.length > 1 ? "s" : ""} available →
+              {componentCategories.map((category, index) => {
+                const isHeaderCategory = category.type === "header";
+                const isDisabled = isHeaderCategory && hasHeader;
+
+                return (
+                  <Card
+                    key={index}
+                    className={`transition-all ${
+                      isDisabled
+                        ? "opacity-50 cursor-not-allowed"
+                        : "cursor-pointer hover:shadow-lg hover:border-blue-500 group"
+                    }`}
+                    onClick={() => !isDisabled && handleSelectCategory(category)}
+                  >
+                    <CardHeader>
+                      <div className="flex items-start gap-3">
+                        <div className="text-4xl">{category.icon}</div>
+                        <div className="flex-1">
+                          <CardTitle
+                            className={`text-lg ${
+                              isDisabled ? "text-gray-400" : "group-hover:text-blue-600"
+                            } transition-colors`}
+                          >
+                            {category.name}
+                          </CardTitle>
+                          <CardDescription className="mt-1">{category.description}</CardDescription>
+                          {isDisabled ? (
+                            <div className="mt-3 text-xs text-red-600 font-medium flex items-center gap-1">
+                              <span>⚠️</span>
+                              <span>Header already exists - only 1 per page</span>
+                            </div>
+                          ) : (
+                            <div className="mt-3 text-xs text-blue-600 font-medium">
+                              {category.variants.length} variant
+                              {category.variants.length > 1 ? "s" : ""} available →
+                            </div>
+                          )}
                         </div>
                       </div>
-                    </div>
-                  </CardHeader>
-                </Card>
-              ))}
+                    </CardHeader>
+                  </Card>
+                );
+              })}
             </div>
           )}
 

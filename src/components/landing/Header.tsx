@@ -113,7 +113,7 @@ export function Header({ config, theme }: HeaderProps) {
     background.type === "solid" ? { ...background, color: themeBackgroundColor } : background;
 
   const bgStyle = getBackgroundStyle(backgroundConfig, themeBackgroundColor);
-  const spacingClasses = spacing ? getSpacingClasses(spacing) : "py-4";
+  const spacingClasses = spacing ? getSpacingClasses(spacing) : "py-2";
 
   // In edit mode, force static position to prevent overlapping
   const effectivePosition = isEditMode ? "static" : position;
@@ -169,15 +169,17 @@ export function Header({ config, theme }: HeaderProps) {
   const renderLogo = () => {
     const logoLink = logo?.link || "/";
 
-    if (logo?.type === "image" && logo.image) {
+    if (logo?.type === "image") {
+      // Use provided image or fallback to default logo
+      const logoSrc = logo.image || "/assets/images/default-logo.svg";
       return (
         <a href={logoLink} className="flex items-center">
           <Image
-            src={logo.image}
+            src={logoSrc}
             alt="Logo"
             width={160}
             height={8}
-            className="h-10 md:h-12 w-auto max-w-[200px]"
+            className="h-8 md:h-10 w-auto max-w-[180px]"
           />
         </a>
       );
@@ -185,14 +187,14 @@ export function Header({ config, theme }: HeaderProps) {
 
     if (logo?.text) {
       return (
-        <a href={logoLink} className="text-2xl font-bold" style={{ color: textColor }}>
+        <a href={logoLink} className="text-xl md:text-2xl font-bold" style={{ color: textColor }}>
           {logo.text}
         </a>
       );
     }
 
     return (
-      <a href={logoLink} className="text-2xl font-bold" style={{ color: textColor }}>
+      <a href={logoLink} className="text-xl md:text-2xl font-bold" style={{ color: textColor }}>
         Your Brand
       </a>
     );
@@ -206,13 +208,13 @@ export function Header({ config, theme }: HeaderProps) {
           <div className="flex-shrink-0">{renderLogo()}</div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-6">
             {tabs.map((tab) => (
               <a
                 key={tab.id}
                 href={tab.link}
                 onClick={(e) => handleNavClick(e, tab.link)}
-                className="text-base font-medium hover:opacity-80 transition-opacity cursor-pointer"
+                className="text-sm font-medium hover:opacity-80 transition-opacity cursor-pointer"
                 style={{ color: textColor }}
               >
                 {tab.text}
@@ -224,7 +226,7 @@ export function Header({ config, theme }: HeaderProps) {
               <a
                 href={ctaButton.link}
                 onClick={(e) => handleNavClick(e, ctaButton.link)}
-                className="px-6 py-2 rounded-lg font-medium transition-all cursor-pointer hover:shadow-lg active:scale-95"
+                className="px-5 py-1.5 rounded-lg text-sm font-medium transition-all cursor-pointer hover:shadow-lg active:scale-95"
                 style={{
                   ...getButtonStyles(ctaButton.style),
                   filter: "brightness(1)",
@@ -261,14 +263,14 @@ export function Header({ config, theme }: HeaderProps) {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-gray-200">
-            <div className="flex flex-col space-y-4 pt-4">
+          <div className="md:hidden mt-3 pb-3 border-t border-gray-200">
+            <div className="flex flex-col space-y-3 pt-3">
               {tabs.map((tab) => (
                 <a
                   key={tab.id}
                   href={tab.link}
                   onClick={(e) => handleNavClick(e, tab.link)}
-                  className="text-base font-medium hover:opacity-80 transition-opacity cursor-pointer"
+                  className="text-sm font-medium hover:opacity-80 transition-opacity cursor-pointer"
                   style={{ color: textColor }}
                 >
                   {tab.text}
@@ -279,7 +281,7 @@ export function Header({ config, theme }: HeaderProps) {
                 <a
                   href={ctaButton.link}
                   onClick={(e) => handleNavClick(e, ctaButton.link)}
-                  className="px-6 py-2 rounded-lg font-medium text-center transition-all cursor-pointer active:scale-95"
+                  className="px-5 py-1.5 rounded-lg text-sm font-medium text-center transition-all cursor-pointer active:scale-95"
                   style={{
                     ...getButtonStyles(ctaButton.style),
                     filter: "brightness(1)",

@@ -2,14 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { LandingConfig, LandingPage, LandingPageVersion } from "@/types/landing";
-import { TemplateSelector } from "@/components/admin/TemplateSelector";
+import { TemplateSelector } from "@/components/editor/TemplateSelector";
 import { LandingPageTemplate } from "@/lib/landing-templates";
-import { EditableLandingPage } from "@/components/admin/EditableLandingPage";
-import MultiPageEditor from "@/components/admin/MultiPageEditor";
-import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
-import { AlertDialog } from "@/components/admin/AlertDialog";
-import { VersionHistoryDialog } from "@/components/admin/VersionHistoryDialog";
-import { SaveBeforeChangeDialog } from "@/components/admin/SaveBeforeChangeDialog";
+import { EditableLandingPage } from "@/components/editor/EditableLandingPage";
+import MultiPageEditor from "@/components/editor/MultiPageEditor";
+import { ConfirmDialog } from "@/components/editor/ConfirmDialog";
+import { AlertDialog } from "@/components/editor/AlertDialog";
+import { VersionHistoryDialog } from "@/components/editor/VersionHistoryDialog";
+import { SaveBeforeChangeDialog } from "@/components/editor/SaveBeforeChangeDialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Eye, Upload, LayoutTemplate, History } from "lucide-react";

@@ -195,6 +195,8 @@ export function ComponentEditor({
                       label="Logo Image"
                       value={(config.logo as { image?: string })?.image || ""}
                       onChange={(url) => handleChange("logo.image", url)}
+                      showDefaultLogos={true}
+                      description="Choose a default logo or upload your own"
                     />
                   )}
 

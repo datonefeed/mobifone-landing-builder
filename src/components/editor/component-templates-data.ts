@@ -90,7 +90,7 @@ const categories: ComponentCategory[] = [
           config: {
             logo: {
               type: "image",
-              image: "https://via.placeholder.com/150x50/4A90E2/FFF?text=Logo",
+              image: "/assets/images/default-logo.svg",
               link: "/",
             },
             tabs: [], // Will be auto-populated with components

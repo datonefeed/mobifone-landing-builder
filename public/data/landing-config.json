@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "metadata": {
-    "lastUpdated": "2025-11-14T02:18:45.621Z",
+    "lastUpdated": "2025-11-17T02:16:10.739Z",
     "totalPages": 5,
     "version": "1.0.0"
   },
@@ -2859,6 +2859,78 @@
       },
       "components": [
         {
+          "type": "header",
+          "visible": true,
+          "config": {
+            "logo": {
+              "type": "image",
+              "image": "/assets/images/logo-modern.svg",
+              "link": "/"
+            },
+            "tabs": [
+              {
+                "id": "comp-1762911557607-0",
+                "text": "Home",
+                "link": "#comp-1762911557607-0"
+              },
+              {
+                "id": "comp-1763086204290-lvo6f33h8",
+                "text": "Partners",
+                "link": "#comp-1763086204290-lvo6f33h8"
+              },
+              {
+                "id": "comp-1762911557607-2",
+                "text": "Features",
+                "link": "#comp-1762911557607-2"
+              },
+              {
+                "id": "comp-1762911557607-3",
+                "text": "Stats",
+                "link": "#comp-1762911557607-3"
+              },
+              {
+                "id": "comp-1762911557607-4",
+                "text": "About",
+                "link": "#comp-1762911557607-4"
+              },
+              {
+                "id": "comp-1762911557607-5",
+                "text": "Testimonials",
+                "link": "#comp-1762911557607-5"
+              },
+              {
+                "id": "comp-1762911557607-6",
+                "text": "Pricing",
+                "link": "#comp-1762911557607-6"
+              },
+              {
+                "id": "comp-1762911557607-7",
+                "text": "FAQ",
+                "link": "#comp-1762911557607-7"
+              }
+            ],
+            "ctaButton": {
+              "text": "Sign Up",
+              "link": "#",
+              "style": "primary"
+            },
+            "position": "sticky",
+            "transparent": false,
+            "background": {
+              "type": "solid",
+              "color": "#ffffff"
+            },
+            "spacing": {
+              "padding": "md"
+            },
+            "animation": {
+              "type": "none"
+            }
+          },
+          "id": "comp-1763345705147-6c3hhnl01",
+          "order": 0
+        },
+        {
           "type": "hero",
           "visible": true,
           "config": {
@@ -2900,7 +2972,7 @@
             }
           },
           "id": "comp-1762911557607-0",
-          "order": 0
+          "order": 3
         },
         {
           "type": "logo-cloud",
@@ -2937,7 +3009,7 @@
             "gridColumns": 4
           },
           "id": "comp-1763086204290-lvo6f33h8",
-          "order": 1
+          "order": 4
         },
         {
           "type": "features",
@@ -3007,7 +3079,7 @@
             }
           },
           "id": "comp-1762911557607-2",
-          "order": 2
+          "order": 5
         },
         {
           "type": "stats",
@@ -3063,7 +3135,7 @@
             }
           },
           "id": "comp-1762911557607-3",
-          "order": 3
+          "order": 6
         },
         {
           "type": "content",
@@ -3096,7 +3168,7 @@
             }
           },
           "id": "comp-1762911557607-4",
-          "order": 4
+          "order": 7
         },
         {
           "type": "testimonials",
@@ -3155,7 +3227,7 @@
                 "avatar": "https://i.pravatar.cc/150?img=16"
               }
             ],
-            "layout": "grid",
+            "layout": "carousel",
             "background": {
               "type": "solid",
               "color": "#ffffff"
@@ -3171,7 +3243,7 @@
             }
           },
           "id": "comp-1762911557607-5",
-          "order": 5
+          "order": 8
         },
         {
           "type": "pricing",
@@ -3261,7 +3333,7 @@
             }
           },
           "id": "comp-1762911557607-6",
-          "order": 6
+          "order": 9
         },
         {
           "type": "faq",
@@ -3324,7 +3396,7 @@
             }
           },
           "id": "comp-1762911557607-7",
-          "order": 7
+          "order": 10
         },
         {
           "type": "footer",
@@ -3405,11 +3477,11 @@
             }
           },
           "id": "comp-1762911557607-9",
-          "order": 8
+          "order": 11
         }
       ],
       "createdAt": "2025-11-12T01:39:17.607Z",
-      "updatedAt": "2025-11-12T02:53:15.926Z",
+      "updatedAt": "2025-11-17T01:56:32.956Z",
       "status": "draft",
       "isMultiPage": true,
       "subPages": [],
@@ -3432,6 +3504,79 @@
         "keywords": []
       },
       "components": [
+        {
+          "type": "header",
+          "visible": true,
+          "config": {
+            "logo": {
+              "type": "text",
+              "text": "Your Brand",
+              "link": "/"
+            },
+            "tabs": [
+              {
+                "id": "comp-1762911557607-0",
+                "text": "Home",
+                "link": "#comp-1762911557607-0"
+              },
+              {
+                "id": "comp-1763086204290-lvo6f33h8",
+                "text": "Partners",
+                "link": "#comp-1763086204290-lvo6f33h8"
+              },
+              {
+                "id": "comp-1762911557607-2",
+                "text": "Features",
+                "link": "#comp-1762911557607-2"
+              },
+              {
+                "id": "comp-1762911557607-3",
+                "text": "Stats",
+                "link": "#comp-1762911557607-3"
+              },
+              {
+                "id": "comp-1762911557607-4",
+                "text": "About",
+                "link": "#comp-1762911557607-4"
+              },
+              {
+                "id": "comp-1762911557607-5",
+                "text": "Testimonials",
+                "link": "#comp-1762911557607-5"
+              },
+              {
+                "id": "comp-1762911557607-6",
+                "text": "Pricing",
+                "link": "#comp-1762911557607-6"
+              },
+              {
+                "id": "comp-1762911557607-7",
+                "text": "FAQ",
+                "link": "#comp-1762911557607-7"
+              }
+            ],
+            "ctaButton": {
+              "text": "Get Started",
+              "link": "#",
+              "style": "primary"
+            },
+            "position": "sticky",
+            "transparent": false,
+            "background": {
+              "type": "solid",
+              "color": "#ffffff"
+            },
+            "spacing": {
+              "padding": "md"
+            },
+            "animation": {
+              "type": "fadeIn",
+              "duration": 600
+            }
+          },
+          "id": "comp-1763344779904-r5h0ua1b2",
+          "order": 0
+        },
         {
           "type": "hero",
           "visible": true,
@@ -3474,7 +3619,44 @@
             }
           },
           "id": "comp-1762911557607-0",
-          "order": 0
+          "order": 1
+        },
+        {
+          "type": "logo-cloud",
+          "visible": true,
+          "config": {
+            "title": "Trusted by Industry Leaders",
+            "logos": [
+              {
+                "name": "Company A",
+                "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqHlDU3o1OK5s0UtAZgpJDbMUremv6_Xds6g&s"
+              },
+              {
+                "name": "Company B",
+                "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqHlDU3o1OK5s0UtAZgpJDbMUremv6_Xds6g&s"
+              },
+              {
+                "name": "Company C",
+                "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqHlDU3o1OK5s0UtAZgpJDbMUremv6_Xds6g&s"
+              },
+              {
+                "name": "Company D",
+                "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqHlDU3o1OK5s0UtAZgpJDbMUremv6_Xds6g&s"
+              }
+            ],
+            "background": {
+              "type": "solid",
+              "color": "#ffffff"
+            },
+            "animation": {
+              "type": "fadeIn",
+              "duration": 600,
+              "delay": 0
+            },
+            "gridColumns": 4
+          },
+          "id": "comp-1763086204290-lvo6f33h8",
+          "order": 2
         },
         {
           "type": "features",
@@ -3544,7 +3726,7 @@
             }
           },
           "id": "comp-1762911557607-2",
-          "order": 2
+          "order": 3
         },
         {
           "type": "stats",
@@ -3600,7 +3782,7 @@
             }
           },
           "id": "comp-1762911557607-3",
-          "order": 3
+          "order": 4
         },
         {
           "type": "content",
@@ -3633,7 +3815,7 @@
             }
           },
           "id": "comp-1762911557607-4",
-          "order": 4
+          "order": 5
         },
         {
           "type": "testimonials",
@@ -3692,7 +3874,7 @@
                 "avatar": "https://i.pravatar.cc/150?img=16"
               }
             ],
-            "layout": "grid",
+            "layout": "carousel",
             "background": {
               "type": "solid",
               "color": "#ffffff"
@@ -3708,7 +3890,7 @@
             }
           },
           "id": "comp-1762911557607-5",
-          "order": 5
+          "order": 6
         },
         {
           "type": "pricing",
@@ -3798,7 +3980,7 @@
             }
           },
           "id": "comp-1762911557607-6",
-          "order": 6
+          "order": 7
         },
         {
           "type": "faq",
@@ -3861,7 +4043,7 @@
             }
           },
           "id": "comp-1762911557607-7",
-          "order": 7
+          "order": 8
         },
         {
           "type": "footer",
@@ -3943,47 +4125,10 @@
           },
           "id": "comp-1762911557607-9",
           "order": 9
-        },
-        {
-          "type": "logo-cloud",
-          "visible": true,
-          "config": {
-            "title": "Trusted by Industry Leaders",
-            "logos": [
-              {
-                "name": "Company A",
-                "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqHlDU3o1OK5s0UtAZgpJDbMUremv6_Xds6g&s"
-              },
-              {
-                "name": "Company B",
-                "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqHlDU3o1OK5s0UtAZgpJDbMUremv6_Xds6g&s"
-              },
-              {
-                "name": "Company C",
-                "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqHlDU3o1OK5s0UtAZgpJDbMUremv6_Xds6g&s"
-              },
-              {
-                "name": "Company D",
-                "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqHlDU3o1OK5s0UtAZgpJDbMUremv6_Xds6g&s"
-              }
-            ],
-            "background": {
-              "type": "solid",
-              "color": "#ffffff"
-            },
-            "animation": {
-              "type": "fadeIn",
-              "duration": 600,
-              "delay": 0
-            },
-            "gridColumns": 4
-          },
-          "id": "comp-1763086204290-lvo6f33h8",
-          "order": 10
         }
       ],
       "createdAt": "2025-11-12T01:39:17.607Z",
-      "updatedAt": "2025-11-12T02:53:15.926Z",
+      "updatedAt": "2025-11-17T01:56:32.956Z",
       "status": "published",
       "isMultiPage": true,
       "subPages": [],
@@ -3994,7 +4139,7 @@
         "sticky": true
       }
     },
-    "publishedAt": "2025-11-14T02:18:18.242Z",
+    "publishedAt": "2025-11-17T02:01:33.978Z",
     "versions": [
       {
         "id": "version-1762912592599",
@@ -4012,6 +4157,78 @@
             "keywords": []
           },
           "components": [
+            {
+              "type": "header",
+              "visible": true,
+              "config": {
+                "logo": {
+                  "type": "image",
+                  "image": "/assets/images/logo-modern.svg",
+                  "link": "/"
+                },
+                "tabs": [
+                  {
+                    "id": "comp-1762911557607-0",
+                    "text": "Home",
+                    "link": "#comp-1762911557607-0"
+                  },
+                  {
+                    "id": "comp-1763086204290-lvo6f33h8",
+                    "text": "Partners",
+                    "link": "#comp-1763086204290-lvo6f33h8"
+                  },
+                  {
+                    "id": "comp-1762911557607-2",
+                    "text": "Features",
+                    "link": "#comp-1762911557607-2"
+                  },
+                  {
+                    "id": "comp-1762911557607-3",
+                    "text": "Stats",
+                    "link": "#comp-1762911557607-3"
+                  },
+                  {
+                    "id": "comp-1762911557607-4",
+                    "text": "About",
+                    "link": "#comp-1762911557607-4"
+                  },
+                  {
+                    "id": "comp-1762911557607-5",
+                    "text": "Testimonials",
+                    "link": "#comp-1762911557607-5"
+                  },
+                  {
+                    "id": "comp-1762911557607-6",
+                    "text": "Pricing",
+                    "link": "#comp-1762911557607-6"
+                  },
+                  {
+                    "id": "comp-1762911557607-7",
+                    "text": "FAQ",
+                    "link": "#comp-1762911557607-7"
+                  }
+                ],
+                "ctaButton": {
+                  "text": "Sign Up",
+                  "link": "#",
+                  "style": "primary"
+                },
+                "position": "sticky",
+                "transparent": false,
+                "background": {
+                  "type": "solid",
+                  "color": "#ffffff"
+                },
+                "spacing": {
+                  "padding": "md"
+                },
+                "animation": {
+                  "type": "none"
+                }
+              },
+              "id": "comp-1763345705147-6c3hhnl01",
+              "order": 0
+            },
             {
               "type": "hero",
               "visible": true,
@@ -4054,7 +4271,7 @@
                 }
               },
               "id": "comp-1762911557607-0",
-              "order": 0
+              "order": 3
             },
             {
               "type": "logo-cloud",
@@ -4091,7 +4308,7 @@
                 "gridColumns": 4
               },
               "id": "comp-1763086204290-lvo6f33h8",
-              "order": 1
+              "order": 4
             },
             {
               "type": "features",
@@ -4161,7 +4378,7 @@
                 }
               },
               "id": "comp-1762911557607-2",
-              "order": 2
+              "order": 5
             },
             {
               "type": "stats",
@@ -4217,7 +4434,7 @@
                 }
               },
               "id": "comp-1762911557607-3",
-              "order": 3
+              "order": 6
             },
             {
               "type": "content",
@@ -4250,7 +4467,7 @@
                 }
               },
               "id": "comp-1762911557607-4",
-              "order": 4
+              "order": 7
             },
             {
               "type": "testimonials",
@@ -4309,7 +4526,7 @@
                     "avatar": "https://i.pravatar.cc/150?img=16"
                   }
                 ],
-                "layout": "grid",
+                "layout": "carousel",
                 "background": {
                   "type": "solid",
                   "color": "#ffffff"
@@ -4325,7 +4542,7 @@
                 }
               },
               "id": "comp-1762911557607-5",
-              "order": 5
+              "order": 8
             },
             {
               "type": "pricing",
@@ -4415,7 +4632,7 @@
                 }
               },
               "id": "comp-1762911557607-6",
-              "order": 6
+              "order": 9
             },
             {
               "type": "faq",
@@ -4478,7 +4695,7 @@
                 }
               },
               "id": "comp-1762911557607-7",
-              "order": 7
+              "order": 10
             },
             {
               "type": "footer",
@@ -4559,11 +4776,11 @@
                 }
               },
               "id": "comp-1762911557607-9",
-              "order": 8
+              "order": 11
             }
           ],
           "createdAt": "2025-11-12T01:39:17.607Z",
-          "updatedAt": "2025-11-12T02:53:15.926Z",
+          "updatedAt": "2025-11-17T01:56:32.956Z",
           "status": "draft",
           "isMultiPage": true,
           "subPages": [],
