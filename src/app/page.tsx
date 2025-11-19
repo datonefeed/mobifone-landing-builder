@@ -7,11 +7,35 @@ import { LandingPageLoader } from "@/components/landing/LandingPageLoader";
 import MultiPageRenderer from "@/components/landing/MultiPageRenderer";
 import { getTheme } from "@/lib/themes";
 import { Metadata } from "next";
+import { seoConfigToMetadata } from "@/lib/seo-utils";
 
-export const metadata: Metadata = {
-  title: "Home",
-  description: "Welcome to our landing page",
-};
+/**
+ * Generate metadata for SEO from published page
+ */
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const configPath = join(process.cwd(), "public/data/landing-config.json");
+    const data = await readFile(configPath, "utf-8");
+    const config: LandingConfig = JSON.parse(data);
+
+    const page = config.currentLanding?.published;
+
+    if (!page || !page.seo) {
+      return {
+        title: "Landing Page Builder",
+        description: "Create stunning landing pages with ease",
+      };
+    }
+
+    return seoConfigToMetadata(page.seo);
+  } catch (error) {
+    console.error("Error generating metadata:", error);
+    return {
+      title: "Landing Page Builder",
+      description: "Create stunning landing pages with ease",
+    };
+  }
+}
 
 export default async function Home() {
   try {

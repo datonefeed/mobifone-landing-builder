@@ -7,6 +7,7 @@ import { ComponentRenderer } from "@/components/landing/ComponentRenderer";
 import { ThemeProvider } from "@/components/landing/ThemeProvider";
 import { LandingPageLoader } from "@/components/landing/LandingPageLoader";
 import { getTheme } from "@/lib/themes";
+import { seoConfigToMetadata } from "@/lib/seo-utils";
 
 interface PageProps {
   params: {
@@ -72,21 +73,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       };
     }
 
-    // Use parent page SEO as base, with subpage title
+    // Use parent page SEO config as base
+    const baseMetadata = page.seo ? seoConfigToMetadata(page.seo) : {};
+
+    // Override with subpage specific info
     return {
+      ...baseMetadata,
       title: `${subPage.title} - ${page.title}`,
-      description: subPage.description || page.seo.metaDescription,
-      keywords: page.seo.keywords,
+      description: subPage.description || page.seo?.metaDescription || "",
       openGraph: {
+        ...baseMetadata.openGraph,
         title: `${subPage.title} - ${page.title}`,
-        description: subPage.description || page.seo.metaDescription,
-        images: page.seo.ogImage ? [page.seo.ogImage] : [],
+        description: subPage.description || page.seo?.metaDescription || "",
       },
       twitter: {
-        card: "summary_large_image",
+        ...baseMetadata.twitter,
         title: `${subPage.title} - ${page.title}`,
-        description: subPage.description || page.seo.metaDescription,
-        images: page.seo.ogImage ? [page.seo.ogImage] : [],
+        description: subPage.description || page.seo?.metaDescription || "",
       },
     };
   } catch (error) {

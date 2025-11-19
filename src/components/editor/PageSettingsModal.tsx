@@ -20,8 +20,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LandingPage, LandingConfig, LoadingConfig } from "@/types/landing";
+import { LandingPage, LandingConfig, LoadingConfig, SEOConfig } from "@/types/landing";
 import LoadingConfigEditor from "./LoadingConfigEditor";
+import SEOEditor from "./SEOEditor";
 
 interface PageSettingsModalProps {
   open: boolean;
@@ -44,11 +45,14 @@ export default function PageSettingsModal({
     slug: page.slug,
     theme: page.theme,
     status: page.status || "draft",
-    seoTitle: page.seo?.metaTitle || page.title,
-    seoDescription: page.seo?.metaDescription || page.description,
-    seoKeywords: page.seo?.keywords?.join(", ") || "",
-    seoOgImage: page.seo?.ogImage || "",
   });
+  const [seoConfig, setSeoConfig] = useState<SEOConfig>(
+    page.seo || {
+      metaTitle: page.title,
+      metaDescription: page.description,
+      keywords: [],
+    }
+  );
   const [loadingConfig, setLoadingConfig] = useState<LoadingConfig>(
     page.loading || {
       enabled: false,
@@ -119,15 +123,7 @@ export default function PageSettingsModal({
         slug: formData.slug,
         theme: formData.theme,
         status: formData.status as "draft" | "published" | "archived",
-        seo: {
-          metaTitle: formData.seoTitle,
-          metaDescription: formData.seoDescription,
-          keywords: formData.seoKeywords
-            .split(",")
-            .map((k) => k.trim())
-            .filter(Boolean),
-          ogImage: formData.seoOgImage,
-        },
+        seo: seoConfig,
         loading: loadingConfig,
         updatedAt: new Date().toISOString(),
       };
@@ -245,57 +241,7 @@ export default function PageSettingsModal({
 
           {/* SEO Tab */}
           <TabsContent value="seo" className="space-y-6 pt-4">
-            <div className="space-y-4">
-              <h3 className="font-semibold text-sm">SEO Settings</h3>
-
-              <div className="space-y-2">
-                <Label htmlFor="seoTitle">SEO Title</Label>
-                <Input
-                  id="seoTitle"
-                  value={formData.seoTitle}
-                  onChange={(e) => setFormData({ ...formData, seoTitle: e.target.value })}
-                  disabled={loading}
-                  placeholder="Leave empty to use page title"
-                />
-                <p className="text-xs text-gray-500">Max 60 characters recommended</p>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="seoDescription">SEO Description</Label>
-                <Input
-                  id="seoDescription"
-                  value={formData.seoDescription}
-                  onChange={(e) => setFormData({ ...formData, seoDescription: e.target.value })}
-                  disabled={loading}
-                  placeholder="Leave empty to use page description"
-                />
-                <p className="text-xs text-gray-500">Max 160 characters recommended</p>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="seoKeywords">SEO Keywords</Label>
-                <Input
-                  id="seoKeywords"
-                  value={formData.seoKeywords}
-                  onChange={(e) => setFormData({ ...formData, seoKeywords: e.target.value })}
-                  disabled={loading}
-                  placeholder="keyword1, keyword2, keyword3"
-                />
-                <p className="text-xs text-gray-500">Separate keywords with commas</p>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="seoOgImage">Open Graph Image URL</Label>
-                <Input
-                  id="seoOgImage"
-                  value={formData.seoOgImage}
-                  onChange={(e) => setFormData({ ...formData, seoOgImage: e.target.value })}
-                  disabled={loading}
-                  placeholder="https://example.com/image.jpg"
-                />
-                <p className="text-xs text-gray-500">Image for social media sharing</p>
-              </div>
-            </div>
+            <SEOEditor config={seoConfig} onChange={setSeoConfig} disabled={loading} />
           </TabsContent>
 
           {/* Loading Tab */}

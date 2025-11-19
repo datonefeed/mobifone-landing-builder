@@ -7,6 +7,7 @@ import { ComponentRenderer } from "@/components/landing/ComponentRenderer";
 import { ThemeProvider } from "@/components/landing/ThemeProvider";
 import { LandingPageLoader } from "@/components/landing/LandingPageLoader";
 import { getTheme } from "@/lib/themes";
+import { seoConfigToMetadata } from "@/lib/seo-utils";
 
 interface PageProps {
   params: {
@@ -63,9 +64,24 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       };
     }
 
+    // Use parent page SEO config as base
+    const baseMetadata = publishedPage.seo ? seoConfigToMetadata(publishedPage.seo) : {};
+
+    // Override with subpage specific info
     return {
-      title: subPage.title || "Sub Page",
-      description: subPage.description || "",
+      ...baseMetadata,
+      title: `${subPage.title} - ${publishedPage.title}`,
+      description: subPage.description || publishedPage.seo?.metaDescription || "",
+      openGraph: {
+        ...baseMetadata.openGraph,
+        title: `${subPage.title} - ${publishedPage.title}`,
+        description: subPage.description || publishedPage.seo?.metaDescription || "",
+      },
+      twitter: {
+        ...baseMetadata.twitter,
+        title: `${subPage.title} - ${publishedPage.title}`,
+        description: subPage.description || publishedPage.seo?.metaDescription || "",
+      },
     };
   } catch (error) {
     console.error("Error generating metadata:", error);

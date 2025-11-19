@@ -345,14 +345,232 @@ export interface Theme {
 // ========================
 
 /**
- * SEO configuration for landing page
+ * Open Graph configuration
+ */
+export interface OpenGraphConfig {
+  title?: string;
+  description?: string;
+  url?: string;
+  siteName?: string;
+  images?: Array<{
+    url: string;
+    width?: number;
+    height?: number;
+    alt?: string;
+  }>;
+  locale?: string;
+  type?: 'website' | 'article' | 'book' | 'profile' | 'music.song' | 'music.album' | 'music.playlist' | 'music.radio_station' | 'video.movie' | 'video.episode' | 'video.tv_show' | 'video.other';
+  // Article specific
+  publishedTime?: string;
+  modifiedTime?: string;
+  expirationTime?: string;
+  authors?: string[];
+  section?: string;
+  tags?: string[];
+  // Video specific
+  videos?: Array<{
+    url: string;
+    secureUrl?: string;
+    type?: string;
+    width?: number;
+    height?: number;
+  }>;
+  // Audio specific
+  audio?: Array<{
+    url: string;
+    secureUrl?: string;
+    type?: string;
+  }>;
+}
+
+/**
+ * Twitter Card configuration
+ */
+export interface TwitterConfig {
+  card?: 'summary' | 'summary_large_image' | 'app' | 'player';
+  site?: string; // @username
+  siteId?: string;
+  creator?: string; // @username
+  creatorId?: string;
+  title?: string;
+  description?: string;
+  images?: Array<{
+    url: string;
+    alt?: string;
+  }>;
+  // App card specific
+  app?: {
+    id: {
+      iphone?: string;
+      ipad?: string;
+      googleplay?: string;
+    };
+    url?: {
+      iphone?: string;
+      ipad?: string;
+      googleplay?: string;
+    };
+    name?: string;
+  };
+}
+
+/**
+ * Robots meta tag configuration
+ */
+export interface RobotsConfig {
+  index?: boolean;
+  follow?: boolean;
+  noarchive?: boolean;
+  nosnippet?: boolean;
+  noimageindex?: boolean;
+  nocache?: boolean;
+  notranslate?: boolean;
+  maxImagePreview?: 'none' | 'standard' | 'large';
+  maxSnippet?: number;
+  maxVideoPreview?: number;
+  googleBot?: {
+    index?: boolean;
+    follow?: boolean;
+    noarchive?: boolean;
+    nosnippet?: boolean;
+    noimageindex?: boolean;
+    maxImagePreview?: 'none' | 'standard' | 'large';
+    maxSnippet?: number;
+    maxVideoPreview?: number;
+  };
+}
+
+/**
+ * Alternate languages configuration
+ */
+export interface AlternateConfig {
+  canonical?: string;
+  languages?: Record<string, string>; // { 'en-US': '/en', 'vi-VN': '/vi' }
+  media?: Record<string, string>; // Media query alternates
+  types?: Record<string, string>; // Alternate types (RSS, Atom, etc.)
+}
+
+/**
+ * Verification codes for search engines
+ */
+export interface VerificationConfig {
+  google?: string;
+  yandex?: string;
+  yahoo?: string;
+  bing?: string;
+  other?: Record<string, string>;
+}
+
+/**
+ * App Links configuration (for mobile apps)
+ */
+export interface AppLinksConfig {
+  ios?: {
+    url?: string;
+    appStoreId?: string;
+    appName?: string;
+  };
+  android?: {
+    package?: string;
+    url?: string;
+    appName?: string;
+  };
+  web?: {
+    url?: string;
+    shouldFallback?: boolean;
+  };
+}
+
+/**
+ * Icons configuration
+ */
+export interface IconsConfig {
+  icon?: string | Array<{ url: string; sizes?: string; type?: string }>;
+  shortcut?: string | Array<{ url: string; sizes?: string; type?: string }>;
+  apple?: string | Array<{ url: string; sizes?: string; type?: string }>;
+  other?: Array<{
+    rel: string;
+    url: string;
+    sizes?: string;
+    type?: string;
+  }>;
+}
+
+/**
+ * SEO configuration for landing page (Next.js Metadata API compatible)
  */
 export interface SEOConfig {
+  // Basic metadata
   metaTitle: string;
   metaDescription: string;
   keywords: string[];
+  
+  // Legacy support
   ogImage?: string;
   canonical?: string;
+  
+  // Application metadata
+  applicationName?: string;
+  authors?: Array<{ name: string; url?: string }>;
+  generator?: string;
+  referrer?: 'no-referrer' | 'no-referrer-when-downgrade' | 'origin' | 'origin-when-cross-origin' | 'same-origin' | 'strict-origin' | 'strict-origin-when-cross-origin' | 'unsafe-url';
+  
+  // Theme and appearance
+  themeColor?: string | Array<{ media: string; color: string }>;
+  colorScheme?: 'light' | 'dark' | 'light dark';
+  viewport?: string;
+  
+  // Open Graph
+  openGraph?: OpenGraphConfig;
+  
+  // Twitter
+  twitter?: TwitterConfig;
+  
+  // Robots
+  robots?: RobotsConfig;
+  
+  // Alternates
+  alternates?: AlternateConfig;
+  
+  // Verification
+  verification?: VerificationConfig;
+  
+  // App Links
+  appLinks?: AppLinksConfig;
+  
+  // Icons
+  icons?: IconsConfig;
+  
+  // Web App Manifest
+  manifest?: string;
+  
+  // Apple Web App
+  appleWebApp?: {
+    capable?: boolean;
+    title?: string;
+    statusBarStyle?: 'default' | 'black' | 'black-translucent';
+  };
+  
+  // Format Detection
+  formatDetection?: {
+    telephone?: boolean;
+    date?: boolean;
+    address?: boolean;
+    email?: boolean;
+    url?: boolean;
+  };
+  
+  // iTunes App
+  itunes?: {
+    appId?: string;
+    appArgument?: string;
+  };
+  
+  // Abstract and classification
+  abstract?: string;
+  archives?: string[];
+  category?: string;
+  classification?: string;
 }
 
 /**

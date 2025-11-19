@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "metadata": {
-    "lastUpdated": "2025-11-17T03:37:57.388Z",
+    "lastUpdated": "2025-11-19T02:10:56.530Z",
     "totalPages": 5,
     "version": "1.0.0"
   },
@@ -2855,7 +2855,11 @@
       "seo": {
         "metaTitle": "SaaS Product",
         "metaDescription": "Perfect for SaaS products with feature showcase and pricing",
-        "keywords": []
+        "keywords": [],
+        "themeColor": "#fe9090",
+        "openGraph": {
+          "type": "website"
+        }
       },
       "components": [
         {
@@ -3535,7 +3539,7 @@
         }
       ],
       "createdAt": "2025-11-17T02:35:11.184Z",
-      "updatedAt": "2025-11-17T02:35:11.184Z",
+      "updatedAt": "2025-11-19T02:10:51.107Z",
       "status": "draft",
       "isMultiPage": true,
       "subPages": [
@@ -4176,6 +4180,13 @@
         "style": "tabs",
         "showIcons": false,
         "sticky": true
+      },
+      "loading": {
+        "enabled": false,
+        "type": "spin",
+        "color": "#f97316",
+        "duration": 1000,
+        "minDuration": 500
       }
     },
     "published": {
@@ -4187,7 +4198,11 @@
       "seo": {
         "metaTitle": "SaaS Product",
         "metaDescription": "Perfect for SaaS products with feature showcase and pricing",
-        "keywords": []
+        "keywords": [],
+        "themeColor": "#fe9090",
+        "openGraph": {
+          "type": "website"
+        }
       },
       "components": [
         {
@@ -4246,8 +4261,8 @@
                 "link": "#comp-1763346911184-8"
               },
               {
-                "id": "subpage-1763346929275",
-                "text": "Blog",
+                "id": "subpage-1763348957664",
+                "text": "blog",
                 "link": "/blog"
               }
             ],
@@ -4867,7 +4882,7 @@
         }
       ],
       "createdAt": "2025-11-17T02:35:11.184Z",
-      "updatedAt": "2025-11-17T02:35:11.184Z",
+      "updatedAt": "2025-11-19T02:10:51.107Z",
       "status": "published",
       "isMultiPage": true,
       "subPages": [
@@ -5508,9 +5523,16 @@
         "style": "tabs",
         "showIcons": false,
         "sticky": true
+      },
+      "loading": {
+        "enabled": false,
+        "type": "spin",
+        "color": "#f97316",
+        "duration": 1000,
+        "minDuration": 500
       }
     },
-    "publishedAt": "2025-11-17T03:09:30.578Z",
+    "publishedAt": "2025-11-19T02:10:56.507Z",
     "versions": [
       {
         "id": "version-1762912592599",
