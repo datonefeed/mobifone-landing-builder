@@ -34,6 +34,7 @@ export default function AdminDashboard() {
   const [config, setConfig] = useState<LandingConfig | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [previewing, setPreviewing] = useState(false);
   const [mode, setMode] = useState<EditorMode>("select-template");
   const [templateSelectorOpen, setTemplateSelectorOpen] = useState(false);
   const [draftPage, setDraftPage] = useState<LandingPage | null>(null);
@@ -135,10 +136,17 @@ export default function AdminDashboard() {
         );
       }
 
+      // Ensure isMultiPage is preserved if subPages exist
+      const pageToSave = {
+        ...updatedPage,
+        isMultiPage:
+          updatedPage.isMultiPage || (updatedPage.subPages && updatedPage.subPages.length > 0),
+      };
+
       const updatedConfig = {
         ...config,
         currentLanding: {
-          draft: updatedPage,
+          draft: pageToSave,
           published: publishedPage,
           publishedAt: config.currentLanding?.publishedAt,
           versions: updatedVersions,
@@ -153,7 +161,7 @@ export default function AdminDashboard() {
       });
 
       if (response.ok) {
-        setDraftPage(updatedPage);
+        setDraftPage(pageToSave);
         setConfig(updatedConfig);
         // Auto-saved successfully
       } else {
@@ -409,11 +417,41 @@ export default function AdminDashboard() {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => window.open("/preview", "_blank")}
+                    disabled={previewing || !draftPage}
+                    onClick={async () => {
+                      if (!draftPage) return;
+
+                      setPreviewing(true);
+                      try {
+                        // Save draft before preview
+                        await handleSaveDraft(draftPage);
+
+                        // Small delay to ensure save completes
+                        await new Promise((resolve) => setTimeout(resolve, 500));
+
+                        // Open preview in new tab
+                        const previewWindow = window.open("/preview", "_blank");
+
+                        // Check if popup was blocked
+                        if (
+                          !previewWindow ||
+                          previewWindow.closed ||
+                          typeof previewWindow.closed == "undefined"
+                        ) {
+                          alert("Popup blocked! Please allow popups for this site and try again.");
+                        }
+                      } catch (error) {
+                        console.error("Failed to save before preview:", error);
+                        // Try to open preview anyway
+                        window.open("/preview", "_blank");
+                      } finally {
+                        setPreviewing(false);
+                      }
+                    }}
                     className="gap-2"
                   >
                     <Eye className="h-4 w-4" />
-                    Preview
+                    {previewing ? "Saving..." : "Preview"}
                   </Button>
                   <Button
                     variant="outline"

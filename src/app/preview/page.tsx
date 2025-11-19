@@ -7,7 +7,6 @@ import { ThemeProvider } from "@/components/landing/ThemeProvider";
 import { LandingPageLoader } from "@/components/landing/LandingPageLoader";
 import MultiPageRenderer from "@/components/landing/MultiPageRenderer";
 import { getTheme } from "@/lib/themes";
-import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Preview - Landing Page",
@@ -32,11 +31,24 @@ export default async function PreviewPage() {
         <div className="min-h-screen flex items-center justify-center bg-gray-50">
           <div className="text-center">
             <h1 className="text-2xl font-bold mb-2">No Draft Available</h1>
-            <p className="text-gray-600 mb-4">
-              Please create a landing page in the admin panel first.
-            </p>
-            <a href="/admin" className="text-blue-600 hover:underline">
-              Go to Admin
+            <p className="text-gray-600 mb-4">Please create a landing page in the editor first.</p>
+            <a href="/editor" className="text-blue-600 hover:underline">
+              Go to Editor
+            </a>
+          </div>
+        </div>
+      );
+    }
+
+    // Validate page has components
+    if (!page.components || page.components.length === 0) {
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold mb-2">Empty Page</h1>
+            <p className="text-gray-600 mb-4">This page doesn&apos;t have any components yet.</p>
+            <a href="/editor" className="text-blue-600 hover:underline">
+              Go to Editor
             </a>
           </div>
         </div>
@@ -46,12 +58,17 @@ export default async function PreviewPage() {
     // Get theme
     const theme = getTheme(page.theme || "modern");
 
+    // Check if multi-page (either by flag or presence of subPages)
+    const isMultiPage = page.isMultiPage || (page.subPages && page.subPages.length > 0);
+
     // If multi-page, use MultiPageRenderer
-    if (page.isMultiPage) {
+    if (isMultiPage) {
       return (
         <>
-          <div className="fixed top-0 left-0 right-0 z-50 bg-yellow-500 text-white py-2 px-4 text-center">
-            <strong>Preview Mode</strong> - This is how your landing page will look when published
+          <div className="fixed top-0 left-0 right-0 z-50 bg-yellow-500 text-white py-2 px-4 text-center text-sm">
+            <strong>Preview Mode</strong> - {page.title} (
+            {page.isMultiPage ? "Multi-Page" : "Single-Page"}) - This is how your landing page will
+            look when published
           </div>
           <div style={{ marginTop: "40px" }}>
             <MultiPageRenderer page={page} />
@@ -76,8 +93,9 @@ export default async function PreviewPage() {
 
     return (
       <ThemeProvider theme={theme}>
-        <div className="fixed top-0 left-0 right-0 z-50 bg-yellow-500 text-white py-2 px-4 text-center">
-          <strong>Preview Mode</strong> - This is how your landing page will look when published
+        <div className="fixed top-0 left-0 right-0 z-50 bg-yellow-500 text-white py-2 px-4 text-center text-sm">
+          <strong>Preview Mode</strong> - {page.title} - This is how your landing page will look
+          when published
         </div>
         <div style={{ marginTop: "40px" }}>
           <LandingPageLoader
@@ -98,6 +116,21 @@ export default async function PreviewPage() {
     );
   } catch (error) {
     console.error("Error rendering preview:", error);
-    notFound();
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center max-w-md">
+          <h1 className="text-2xl font-bold mb-2 text-red-600">Preview Error</h1>
+          <p className="text-gray-600 mb-4">
+            Failed to load the preview. Please check the console for details.
+          </p>
+          <p className="text-sm text-gray-500 mb-4">
+            Error: {error instanceof Error ? error.message : "Unknown error"}
+          </p>
+          <a href="/editor" className="text-blue-600 hover:underline">
+            Go to Editor
+          </a>
+        </div>
+      </div>
+    );
   }
 }

@@ -43,8 +43,15 @@ export default function MultiPageEditor({ page, config, onSave }: MultiPageEdito
   };
 
   const handleUpdateMainPage = async (updated: LandingPage) => {
-    setEditingPage(updated);
-    await onSave(updated);
+    // Preserve multi-page properties
+    const updatedPage = {
+      ...updated,
+      isMultiPage: true, // Always true for MultiPageEditor
+      subPages: editingPage.subPages, // Preserve subPages
+      navigation: editingPage.navigation, // Preserve navigation
+    };
+    setEditingPage(updatedPage);
+    await onSave(updatedPage);
   };
 
   const handleEditSubPage = (subPageId: string) => {

@@ -100,9 +100,22 @@ export function EditableLandingPage({ page, theme, config, onSave }: EditableLan
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editingPage.subPages]);
 
-  // Preview page
-  const handlePreview = () => {
-    window.open(`/${editingPage.slug}`, "_blank");
+  // Preview page - opens draft preview, not the published page
+  const handlePreview = async () => {
+    try {
+      // Save current state before preview
+      await onSave(editingPage);
+
+      // Small delay to ensure save completes
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
+      // Open preview page (shows draft)
+      window.open("/preview", "_blank");
+    } catch (error) {
+      console.error("Failed to save before preview:", error);
+      // Open preview anyway
+      window.open("/preview", "_blank");
+    }
   };
 
   // Note: "Back to Dashboard" removed in new flow
@@ -866,7 +879,7 @@ export function EditableLandingPage({ page, theme, config, onSave }: EditableLan
           className={`bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm transition-all duration-300 `}
         >
           <div
-            className={`px-4 py-3 flex items-center justify-between ${
+            className={`px-4 py-4 flex items-center justify-between ${
               selectedComponentId ? "" : "container mx-auto"
             }`}
           >

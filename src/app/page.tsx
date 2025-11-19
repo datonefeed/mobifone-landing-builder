@@ -68,13 +68,12 @@ export default async function Home() {
     // Get theme
     const theme = getTheme(page.theme || "modern");
 
+    // Check if multi-page (either by flag or presence of subPages)
+    const isMultiPage = page.isMultiPage || (page.subPages && page.subPages.length > 0);
+
     // If multi-page, use MultiPageRenderer
-    if (page.isMultiPage) {
-      return (
-        <ThemeProvider theme={theme}>
-          <MultiPageRenderer page={page} />
-        </ThemeProvider>
-      );
+    if (isMultiPage) {
+      return <MultiPageRenderer page={page} />;
     }
 
     // Single page - sort components and filter visible ones
