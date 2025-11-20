@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LandingPage, SubPage, LandingConfig } from "@/types/landing";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -27,6 +27,11 @@ export default function MultiPageEditor({ page, config, onSave }: MultiPageEdito
   const [editingPage, setEditingPage] = useState<LandingPage>(page);
   const [activeTab, setActiveTab] = useState<"main" | "subpages" | "settings">("main");
   const [editingSubPageId, setEditingSubPageId] = useState<string | null>(null);
+
+  // Sync editingPage when prop page changes (e.g., when applying version)
+  useEffect(() => {
+    setEditingPage(page);
+  }, [page]);
 
   const subPages = editingPage.subPages || [];
   const editingSubPage = editingSubPageId

@@ -79,6 +79,11 @@ export function EditableLandingPage({ page, theme, config, onSave }: EditableLan
 
   const selectedComponent = editingPage.components.find((c) => c.id === selectedComponentId);
 
+  // Sync editingPage when prop page changes (e.g., when applying version)
+  useEffect(() => {
+    setEditingPage(page);
+  }, [page]);
+
   // Apply theme when page loads or theme changes
   useEffect(() => {
     const currentTheme = getTheme(editingPage.theme || "modern");

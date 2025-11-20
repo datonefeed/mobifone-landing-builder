@@ -293,14 +293,13 @@ export default function AdminDashboard() {
   const handleApplyVersion = async (version: LandingPageVersion) => {
     if (!config) return;
 
-    const restoredPage = {
-      ...version.page,
-      updatedAt: new Date().toISOString(),
-    };
+    // Create a deep copy to avoid reference issues
+    const restoredPage: LandingPage = JSON.parse(JSON.stringify(version.page));
+    restoredPage.updatedAt = new Date().toISOString();
 
+    // Update all states
     setDraftPage(restoredPage);
-    setActiveVersionId(version.id); // Set active version ID
-    // Update mode based on restored page type
+    setActiveVersionId(version.id);
     setMode(restoredPage.isMultiPage ? "edit-multi" : "edit-single");
 
     const updatedConfig = {
@@ -310,7 +309,7 @@ export default function AdminDashboard() {
         draft: restoredPage,
         published: publishedPage,
         versions: config.currentLanding?.versions || [],
-        activeVersionId: version.id, // Track which version is active
+        activeVersionId: version.id,
       },
     };
 
@@ -323,7 +322,6 @@ export default function AdminDashboard() {
 
       if (response.ok) {
         setConfig(updatedConfig);
-        // Show success message
         setDialogState({ type: "version-applied", open: true });
       }
     } catch (error) {

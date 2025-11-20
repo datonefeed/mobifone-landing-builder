@@ -65,6 +65,7 @@ export function VersionHistoryDialog({
   const handleApplyConfirm = () => {
     if (confirmDialog.version) {
       onApplyVersion(confirmDialog.version);
+      setConfirmDialog({ open: false, type: "apply" }); // Reset confirm dialog
       onOpenChange(false);
     }
   };
@@ -76,6 +77,7 @@ export function VersionHistoryDialog({
   const handleDeleteConfirm = () => {
     if (confirmDialog.version) {
       onDeleteVersion(confirmDialog.version.id);
+      setConfirmDialog({ open: false, type: "delete" }); // Reset confirm dialog
     }
   };
 
