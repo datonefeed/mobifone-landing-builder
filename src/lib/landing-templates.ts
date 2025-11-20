@@ -37,12 +37,8 @@ export const landingPageTemplates: LandingPageTemplate[] = [
           image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800",
           alignment: "center" as const,
           background: {
-            type: "gradient" as const,
-            gradient: {
-              from: "#3b82f6",
-              to: "#8b5cf6",
-              direction: "to-br" as const,
-            },
+            type: "solid" as const,
+            color: "#ffffff",
           },
           animation: {
             type: "fadeInUp" as const,
@@ -218,12 +214,8 @@ export const landingPageTemplates: LandingPageTemplate[] = [
           layout: "grid" as const,
           columns: 4,
           background: {
-            type: "gradient" as const,
-            gradient: {
-              from: "#3b82f6",
-              to: "#8b5cf6",
-              direction: "to-r" as const,
-            },
+            type: "solid" as const,
+            color: "#ffffff",
           },
           animation: {
             type: "fadeIn" as const,
@@ -516,12 +508,8 @@ export const landingPageTemplates: LandingPageTemplate[] = [
             style: "outline" as const,
           },
           background: {
-            type: "gradient" as const,
-            gradient: {
-              from: "#3b82f6",
-              to: "#8b5cf6",
-              direction: "to-r" as const,
-            },
+            type: "solid" as const,
+            color: "#ffffff",
           },
           animation: {
             type: "fadeIn" as const,
@@ -610,12 +598,8 @@ export const landingPageTemplates: LandingPageTemplate[] = [
           image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800",
           alignment: "left" as const,
           background: {
-            type: "gradient" as const,
-            gradient: {
-              from: "#667eea",
-              to: "#764ba2",
-              direction: "to-br" as const,
-            },
+            type: "solid" as const,
+            color: "#ffffff",
           },
           animation: {
             type: "fadeInUp" as const,
@@ -1087,12 +1071,8 @@ export const landingPageTemplates: LandingPageTemplate[] = [
             style: "primary" as const,
           },
           background: {
-            type: "gradient" as const,
-            gradient: {
-              from: "#6366f1",
-              to: "#8b5cf6",
-              direction: "to-r" as const,
-            },
+            type: "solid" as const,
+            color: "#ffffff",
           },
           animation: {
             type: "fadeIn" as const,
@@ -1176,12 +1156,8 @@ export const landingPageTemplates: LandingPageTemplate[] = [
           },
           alignment: "center" as const,
           background: {
-            type: "gradient" as const,
-            gradient: {
-              from: "#000000",
-              to: "#1e1e1e",
-              direction: "to-br" as const,
-            },
+            type: "solid" as const,
+            color: "#ffffff",
           },
           animation: {
             type: "fadeIn" as const,
@@ -1534,12 +1510,8 @@ export const landingPageTemplates: LandingPageTemplate[] = [
             style: "primary" as const,
           },
           background: {
-            type: "gradient" as const,
-            gradient: {
-              from: "#ec4899",
-              to: "#8b5cf6",
-              direction: "to-r" as const,
-            },
+            type: "solid" as const,
+            color: "#ffffff",
           },
           animation: {
             type: "fadeIn" as const,
@@ -1837,12 +1809,8 @@ export const landingPageTemplates: LandingPageTemplate[] = [
           image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80",
           alignment: "center" as const,
           background: {
-            type: "gradient" as const,
-            gradient: {
-              from: "#667eea",
-              to: "#764ba2",
-              direction: "to-br" as const,
-            },
+            type: "solid" as const,
+            color: "#ffffff",
           },
           animation: {
             type: "fadeIn" as const,
@@ -2060,12 +2028,8 @@ export const landingPageTemplates: LandingPageTemplate[] = [
             style: "outline" as const,
           },
           background: {
-            type: "gradient" as const,
-            gradient: {
-              from: "#667eea",
-              to: "#764ba2",
-              direction: "to-r" as const,
-            },
+            type: "solid" as const,
+            color: "#ffffff",
           },
           animation: {
             type: "fadeIn" as const,
@@ -2375,12 +2339,8 @@ export const landingPageTemplates: LandingPageTemplate[] = [
           image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80",
           alignment: "left" as const,
           background: {
-            type: "gradient" as const,
-            gradient: {
-              from: "#f97316",
-              to: "#dc2626",
-              direction: "to-br" as const,
-            },
+            type: "solid" as const,
+            color: "#ffffff",
           },
           animation: {
             type: "fadeInUp" as const,
@@ -2599,12 +2559,8 @@ export const landingPageTemplates: LandingPageTemplate[] = [
             style: "outline" as const,
           },
           background: {
-            type: "gradient" as const,
-            gradient: {
-              from: "#f97316",
-              to: "#dc2626",
-              direction: "to-r" as const,
-            },
+            type: "solid" as const,
+            color: "#ffffff",
           },
           animation: {
             type: "fadeIn" as const,
@@ -2692,12 +2648,8 @@ export const landingPageTemplates: LandingPageTemplate[] = [
           image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
           alignment: "center" as const,
           background: {
-            type: "gradient" as const,
-            gradient: {
-              from: "#1e3a8a",
-              to: "#3b82f6",
-              direction: "to-br" as const,
-            },
+            type: "solid" as const,
+            color: "#ffffff",
           },
           animation: {
             type: "fadeIn" as const,
@@ -2918,12 +2870,8 @@ export const landingPageTemplates: LandingPageTemplate[] = [
           image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&q=80",
           alignment: "center" as const,
           background: {
-            type: "gradient" as const,
-            gradient: {
-              from: "#6366f1",
-              to: "#a855f7",
-              direction: "to-br" as const,
-            },
+            type: "solid" as const,
+            color: "#ffffff",
           },
           animation: {
             type: "fadeInUp" as const,
@@ -3132,12 +3080,8 @@ export const landingPageTemplates: LandingPageTemplate[] = [
             style: "primary" as const,
           },
           background: {
-            type: "gradient" as const,
-            gradient: {
-              from: "#6366f1",
-              to: "#a855f7",
-              direction: "to-r" as const,
-            },
+            type: "solid" as const,
+            color: "#ffffff",
           },
           animation: {
             type: "fadeIn" as const,
@@ -3227,12 +3171,8 @@ export const landingPageTemplates: LandingPageTemplate[] = [
           image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200",
           alignment: "center" as const,
           background: {
-            type: "gradient" as const,
-            gradient: {
-              from: "#667eea",
-              to: "#764ba2",
-              direction: "to-br" as const,
-            },
+            type: "solid" as const,
+            color: "#ffffff",
           },
           animation: {
             type: "fadeInUp" as const,
@@ -3408,12 +3348,8 @@ export const landingPageTemplates: LandingPageTemplate[] = [
           layout: "grid" as const,
           columns: 4,
           background: {
-            type: "gradient" as const,
-            gradient: {
-              from: "#667eea",
-              to: "#764ba2",
-              direction: "to-r" as const,
-            },
+            type: "solid" as const,
+            color: "#ffffff",
           },
           animation: {
             type: "fadeIn" as const,
@@ -3719,12 +3655,8 @@ export const landingPageTemplates: LandingPageTemplate[] = [
             style: "outline" as const,
           },
           background: {
-            type: "gradient" as const,
-            gradient: {
-              from: "#667eea",
-              to: "#764ba2",
-              direction: "to-r" as const,
-            },
+            type: "solid" as const,
+            color: "#ffffff",
           },
           animation: {
             type: "fadeIn" as const,

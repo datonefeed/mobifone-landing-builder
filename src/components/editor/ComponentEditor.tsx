@@ -21,6 +21,7 @@ import { TestimonialsArrayEditor } from "./TestimonialsArrayEditor";
 import { FooterLinksEditor } from "./FooterLinksEditor";
 import { LogoArrayEditor } from "./LogoArrayEditor";
 import { HeaderTabsEditor } from "./HeaderTabsEditor";
+import { StatsArrayEditor } from "./StatsArrayEditor";
 import { LinkSelector } from "./LinkSelector";
 import { ensureAnimation } from "@/lib/animation-defaults";
 import { SubPage } from "@/types/landing";
@@ -471,6 +472,23 @@ export function ComponentEditor({
                   }>
                 }
                 onChange={(testimonials) => handleChange("testimonials", testimonials)}
+              />
+            </div>
+          )}
+
+          {"stats" in config && Array.isArray(config.stats) && (
+            <div className="space-y-2">
+              <StatsArrayEditor
+                stats={
+                  config.stats as Array<{
+                    id: string;
+                    value: string;
+                    label: string;
+                    suffix?: string;
+                    prefix?: string;
+                  }>
+                }
+                onChange={(stats) => handleChange("stats", stats)}
               />
             </div>
           )}
