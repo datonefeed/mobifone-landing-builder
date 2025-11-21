@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Download, Upload, FileJson, Copy, Check } from "lucide-react";
-import { ComponentConfig } from "@/types/landing";
+import { Download, Upload, FileJson, Copy, Check, FileCode } from "lucide-react";
+import { ComponentConfig, SubPage } from "@/types/landing";
 import { ExportImportManager } from "@/lib/export-import";
 import { useToast } from "@/hooks/use-toast";
 
@@ -16,6 +16,9 @@ interface ExportImportDialogProps {
   onClose: () => void;
   components: ComponentConfig[];
   onImport: (components: ComponentConfig[]) => void;
+  isMultiPage?: boolean;
+  subPages?: SubPage[];
+  pageTitle?: string;
 }
 
 export function ExportImportDialog({
@@ -23,14 +26,19 @@ export function ExportImportDialog({
   onClose,
   components,
   onImport,
+  isMultiPage = false,
+  subPages = [],
+  pageTitle = "Landing Page",
 }: ExportImportDialogProps) {
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [exportData, setExportData] = useState("");
+  const [exportHTML, setExportHTML] = useState("");
   const [importData, setImportData] = useState("");
   const [templateName, setTemplateName] = useState("");
   const [templateDescription, setTemplateDescription] = useState("");
   const [copied, setCopied] = useState(false);
+  const [exportFormat, setExportFormat] = useState<"json" | "html">("json");
 
   const handleExport = () => {
     const metadata = {
@@ -39,47 +47,89 @@ export function ExportImportDialog({
       author: "Landing Page Builder",
     };
 
-    const exported = ExportImportManager.export(components, metadata);
-    setExportData(exported);
+    if (exportFormat === "json") {
+      const exported = ExportImportManager.export(components, metadata);
+      setExportData(exported);
+    } else {
+      const exported = ExportImportManager.exportHTML(components, metadata);
+      setExportHTML(exported);
+    }
   };
 
   const handleDownload = () => {
-    if (!exportData) {
-      handleExport();
-    }
-
-    const filename = templateName
-      ? `${templateName.toLowerCase().replace(/\s+/g, "-")}.json`
-      : "landing-page-template.json";
-
     const metadata = {
       title: templateName || "Landing Page Template",
       description: templateDescription || "Exported landing page configuration",
       author: "Landing Page Builder",
     };
 
-    ExportImportManager.downloadAsFile(components, filename, metadata);
+    if (exportFormat === "json") {
+      const filename = templateName
+        ? `${templateName.toLowerCase().replace(/\s+/g, "-")}.json`
+        : "landing-page-template.json";
 
-    toast({
-      title: "Template exported",
-      description: `Downloaded as ${filename}`,
-    });
+      ExportImportManager.downloadAsFile(components, filename, metadata);
+
+      toast({
+        title: "Template exported",
+        description: `Downloaded as ${filename}`,
+      });
+    } else {
+      // Check if multi-page
+      if (isMultiPage && subPages.length > 0) {
+        const projectName = templateName || pageTitle.toLowerCase().replace(/\s+/g, "-");
+        const pages = [
+          {
+            slug: "home",
+            components,
+            title: pageTitle,
+            description: templateDescription || metadata.description,
+          },
+          ...subPages.map((sp) => ({
+            slug: sp.slug,
+            components: sp.components,
+            title: sp.title,
+            description: sp.description || `${sp.title} page`,
+          })),
+        ];
+
+        ExportImportManager.exportMultiPageHTML(pages, projectName);
+
+        toast({
+          title: "Multi-page HTML exported",
+          description: `Downloaded ${pages.length} pages as ${projectName}.zip`,
+        });
+      } else {
+        const filename = templateName
+          ? `${templateName.toLowerCase().replace(/\s+/g, "-")}.html`
+          : "landing-page.html";
+
+        ExportImportManager.downloadAsHTML(components, filename, metadata);
+
+        toast({
+          title: "HTML exported",
+          description: `Downloaded as ${filename}`,
+        });
+      }
+    }
   };
 
   const handleCopyToClipboard = async () => {
-    if (!exportData) {
+    const dataToExport = exportFormat === "json" ? exportData : exportHTML;
+
+    if (!dataToExport) {
       handleExport();
       return;
     }
 
     try {
-      await navigator.clipboard.writeText(exportData);
+      await navigator.clipboard.writeText(dataToExport);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
 
       toast({
         title: "Copied to clipboard",
-        description: "Template configuration copied successfully",
+        description: `${exportFormat.toUpperCase()} code copied successfully`,
       });
     } catch (error) {
       toast({
@@ -189,18 +239,59 @@ export function ExportImportDialog({
                 />
               </div>
 
+              <div>
+                <Label>Export Format</Label>
+                <div className="flex gap-2 mt-2">
+                  <Button
+                    variant={exportFormat === "json" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => {
+                      setExportFormat("json");
+                      setExportData("");
+                      setExportHTML("");
+                    }}
+                    className="flex items-center gap-2"
+                  >
+                    <FileJson className="h-4 w-4" />
+                    JSON
+                  </Button>
+                  <Button
+                    variant={exportFormat === "html" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => {
+                      setExportFormat("html");
+                      setExportData("");
+                      setExportHTML("");
+                    }}
+                    className="flex items-center gap-2"
+                  >
+                    <FileCode className="h-4 w-4" />
+                    HTML
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {exportFormat === "json"
+                    ? "Export as JSON configuration (can be imported back)"
+                    : "Export as standalone HTML file (ready to deploy)"}
+                </p>
+              </div>
+
               <div className="flex gap-2">
                 <Button onClick={handleDownload} className="flex items-center gap-2">
                   <Download className="h-4 w-4" />
-                  Download JSON
+                  Download {exportFormat.toUpperCase()}
                 </Button>
                 <Button variant="outline" onClick={handleExport}>
-                  <FileJson className="h-4 w-4 mr-2" />
+                  {exportFormat === "json" ? (
+                    <FileJson className="h-4 w-4 mr-2" />
+                  ) : (
+                    <FileCode className="h-4 w-4 mr-2" />
+                  )}
                   Generate Preview
                 </Button>
               </div>
 
-              {exportData && (
+              {(exportData || exportHTML) && (
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
                     <Label>Export Preview</Label>
@@ -215,8 +306,8 @@ export function ExportImportDialog({
                     </Button>
                   </div>
                   <textarea
-                    className="w-full h-32 p-2 border rounded-md font-mono text-sm"
-                    value={exportData}
+                    className="w-full h-64 p-2 border rounded-md font-mono text-xs"
+                    value={exportFormat === "json" ? exportData : exportHTML}
                     readOnly
                   />
                 </div>
