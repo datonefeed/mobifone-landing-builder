@@ -15,7 +15,7 @@ interface FAQConfig {
   title: string;
   subtitle?: string;
   description?: string;
-  items: FAQItem[];
+  faqs: FAQItem[];
   layout?: "single" | "two-column";
   background: {
     type: "solid";
@@ -49,7 +49,7 @@ export function FAQ({ config, theme }: FAQProps) {
     title,
     subtitle,
     description,
-    items,
+    faqs,
     layout = "single",
     background,
     spacing,
@@ -117,7 +117,7 @@ export function FAQ({ config, theme }: FAQProps) {
 
           {/* FAQ Items */}
           <div className={`grid grid-cols-1 ${columnClass} gap-4`}>
-            {items?.map((item) => {
+            {faqs?.map((item) => {
               const isOpen = openItems.has(item.id);
               return (
                 <div

@@ -1114,6 +1114,9 @@ export function EditableLandingPage({ page, theme, config, onSave }: EditableLan
             });
             setExportImportOpen(false);
           }}
+          isMultiPage={editingPage.isMultiPage}
+          subPages={editingPage.subPages}
+          pageTitle={editingPage.title}
         />
 
         {/* Keyboard Shortcuts Help */}

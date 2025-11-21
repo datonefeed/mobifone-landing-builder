@@ -22,6 +22,7 @@ import { FooterLinksEditor } from "./FooterLinksEditor";
 import { LogoArrayEditor } from "./LogoArrayEditor";
 import { HeaderTabsEditor } from "./HeaderTabsEditor";
 import { StatsArrayEditor } from "./StatsArrayEditor";
+import { FAQArrayEditor } from "./FAQArrayEditor";
 import { LinkSelector } from "./LinkSelector";
 import { ensureAnimation } from "@/lib/animation-defaults";
 import { SubPage } from "@/types/landing";
@@ -489,6 +490,21 @@ export function ComponentEditor({
                   }>
                 }
                 onChange={(stats) => handleChange("stats", stats)}
+              />
+            </div>
+          )}
+
+          {"faqs" in config && Array.isArray(config.faqs) && (
+            <div className="space-y-2">
+              <FAQArrayEditor
+                faqs={
+                  config.faqs as Array<{
+                    id: string;
+                    question: string;
+                    answer: string;
+                  }>
+                }
+                onChange={(faqs) => handleChange("faqs", faqs)}
               />
             </div>
           )}
