@@ -3,7 +3,7 @@
 
 import { Theme } from "@/types/landing";
 import { Button } from "@/components/ui/button";
-import { AnimatedSection } from "./AnimatedSection";
+import { AnimatedSection } from "@/components/landing/AnimatedSection";
 
 interface ContentConfig {
   title: string;

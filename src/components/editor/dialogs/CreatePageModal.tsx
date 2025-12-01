@@ -20,7 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { LandingConfig } from "@/types/landing";
-import { TemplateSelector } from "./TemplateSelector";
+import { TemplateSelector } from "@/components/editor/selectors/TemplateSelector";
 import { LandingPageTemplate } from "@/lib/landing-templates";
 import { ArrowLeft } from "lucide-react";
 

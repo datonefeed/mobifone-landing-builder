@@ -52,35 +52,35 @@ const categories: ComponentCategory[] = [
           },
         },
       },
-      {
-        name: "Transparent Header",
-        description: "Transparent header that becomes solid on scroll",
-        template: {
-          type: "header",
-          visible: true,
-          config: {
-            logo: {
-              type: "text",
-              text: "Your Brand",
-              link: "/",
-            },
-            tabs: [], // Will be auto-populated with components
-            ctaButton: {
-              text: "Contact Us",
-              link: "#",
-              style: "outline",
-            },
-            position: "fixed",
-            transparent: true,
-            background: {
-              type: "solid",
-              color: "#ffffff",
-            },
-            spacing: { padding: "md" },
-            animation: { type: "fadeIn", duration: 600 },
-          },
-        },
-      },
+      // {
+      //   name: "Transparent Header",
+      //   description: "Transparent header that becomes solid on scroll",
+      //   template: {
+      //     type: "header",
+      //     visible: true,
+      //     config: {
+      //       logo: {
+      //         type: "text",
+      //         text: "Your Brand",
+      //         link: "/",
+      //       },
+      //       tabs: [], // Will be auto-populated with components
+      //       ctaButton: {
+      //         text: "Contact Us",
+      //         link: "#",
+      //         style: "outline",
+      //       },
+      //       position: "fixed",
+      //       transparent: true,
+      //       background: {
+      //         type: "solid",
+      //         color: "#ffffff",
+      //       },
+      //       spacing: { padding: "md" },
+      //       animation: { type: "fadeIn", duration: 600 },
+      //     },
+      //   },
+      // },
       {
         name: "Header with Logo Image",
         description: "Header with image logo",

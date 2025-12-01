@@ -1,9 +1,9 @@
 "use client";
 
 import { LandingPage } from "@/types/landing";
-import { ComponentRenderer } from "./ComponentRenderer";
-import { ThemeProvider } from "./ThemeProvider";
-import { LandingPageLoader } from "./LandingPageLoader";
+import { ComponentRenderer } from "@/components/landing/ComponentRenderer";
+import { ThemeProvider } from "@/components/landing/ThemeProvider";
+import { LandingPageLoader } from "@/components/landing/LandingPageLoader";
 import { getTheme } from "@/lib/themes";
 
 interface MultiPageRendererProps {

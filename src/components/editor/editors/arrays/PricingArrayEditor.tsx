@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Plus, Trash2, GripVertical, Star } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { LinkSelector } from "./LinkSelector";
+import { LinkSelector } from "@/components/editor/editors/fields/LinkSelector";
 import { ComponentConfig, SubPage } from "@/types/landing";
 
 interface PricingPlan {

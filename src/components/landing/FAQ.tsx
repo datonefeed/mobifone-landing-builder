@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Theme } from "@/types/landing";
-import { AnimatedSection } from "./AnimatedSection";
+import { AnimatedSection } from "@/components/landing/AnimatedSection";
 import { ensureAnimation } from "@/lib/animation-defaults";
 
 interface FAQItem {

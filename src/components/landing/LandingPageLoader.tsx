@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { LoadingSpinner, LoadingSpinnerType } from "./LoadingSpinner";
+import { LoadingSpinner, LoadingSpinnerType } from "@/components/landing/LoadingSpinner";
 
 interface LandingPageLoaderProps {
   children: React.ReactNode;

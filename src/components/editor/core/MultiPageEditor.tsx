@@ -5,8 +5,8 @@ import { LandingPage, SubPage, LandingConfig } from "@/types/landing";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import SubPageManager from "./SubPageManager";
-import { EditableLandingPage } from "./EditableLandingPage";
+import SubPageManager from "@/components/editor/core/SubPageManager";
+import { EditableLandingPage } from "@/components/editor/core/EditableLandingPage";
 import { Settings, FileText, Layout, ArrowLeft } from "lucide-react";
 import {
   Select,

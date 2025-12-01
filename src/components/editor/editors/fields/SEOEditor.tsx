@@ -154,20 +154,6 @@ export default function SEOEditor({ config, onChange, disabled = false }: SEOEdi
               disabled={disabled}
             />
           </div>
-
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <Label htmlFor="themeColor">Theme Color</Label>
-              <InfoTooltip text="Màu chủ đạo của trang, hiển thị trên thanh địa chỉ mobile." />
-            </div>
-            <Input
-              id="themeColor"
-              type="color"
-              value={typeof config.themeColor === "string" ? config.themeColor : "#000000"}
-              onChange={(e) => updateConfig({ themeColor: e.target.value })}
-              disabled={disabled}
-            />
-          </div>
         </TabsContent>
 
         {/* Open Graph Tab */}

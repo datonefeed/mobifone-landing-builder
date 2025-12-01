@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus, Trash2, GripVertical } from "lucide-react";
 import { useState } from "react";
-import { LinkSelector } from "./LinkSelector";
+import { LinkSelector } from "@/components/editor/editors/fields/LinkSelector";
 
 interface HeaderTabsEditorProps {
   tabs: HeaderTab[];

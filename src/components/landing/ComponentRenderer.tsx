@@ -1,22 +1,22 @@
 "use client";
 
 import { ComponentConfig, Theme } from "@/types/landing";
-import { Header } from "./Header";
-import { Hero } from "./Hero";
-import { Features } from "./Features";
-import { Pricing } from "./Pricing";
-import { Testimonials } from "./Testimonials";
-import { CTA } from "./CTA";
-import { Footer } from "./Footer";
-import { Stats } from "./Stats";
-import { Team } from "./Team";
-import { FAQ } from "./FAQ";
-import { Gallery } from "./Gallery";
-import { LogoCloud } from "./LogoCloud";
-import { Contact } from "./Contact";
-import { Content } from "./Content";
-import { Newsletter } from "./Newsletter";
-import { Video } from "./Video";
+import { Header } from "@/components/landing/Header";
+import { Hero } from "@/components/landing/Hero";
+import { Features } from "@/components/landing/Features";
+import { Pricing } from "@/components/landing/Pricing";
+import { Testimonials } from "@/components/landing/Testimonials";
+import { CTA } from "@/components/landing/CTA";
+import { Footer } from "@/components/landing/Footer";
+import { Stats } from "@/components/landing/Stats";
+import { Team } from "@/components/landing/Team";
+import { FAQ } from "@/components/landing/FAQ";
+import { Gallery } from "@/components/landing/Gallery";
+import { LogoCloud } from "@/components/landing/LogoCloud";
+import { Contact } from "@/components/landing/Contact";
+import { Content } from "@/components/landing/Content";
+import { Newsletter } from "@/components/landing/Newsletter";
+import { Video } from "@/components/landing/Video";
 
 interface ComponentRendererProps {
   component: ComponentConfig;

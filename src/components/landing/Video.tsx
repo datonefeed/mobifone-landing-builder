@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { Theme } from "@/types/landing";
-import { AnimatedSection } from "./AnimatedSection";
+import { AnimatedSection } from "@/components/landing/AnimatedSection";
 
 interface VideoConfig {
   title?: string;

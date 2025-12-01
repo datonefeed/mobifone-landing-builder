@@ -21,8 +21,8 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LandingPage, LandingConfig, LoadingConfig, SEOConfig } from "@/types/landing";
-import LoadingConfigEditor from "./LoadingConfigEditor";
-import SEOEditor from "./SEOEditor";
+import LoadingConfigEditor from "@/components/editor/editors/fields/LoadingConfigEditor";
+import SEOEditor from "@/components/editor/editors/fields/SEOEditor";
 
 interface PageSettingsModalProps {
   open: boolean;

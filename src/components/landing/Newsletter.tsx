@@ -6,7 +6,7 @@ import { Theme } from "@/types/landing";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { BackgroundConfig, getBackgroundStyle, isBackgroundDark } from "@/lib/background-utils";
-import { AnimatedSection } from "./AnimatedSection";
+import { AnimatedSection } from "@/components/landing/AnimatedSection";
 
 interface NewsletterConfig {
   title: string;

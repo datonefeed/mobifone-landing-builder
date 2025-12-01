@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus, Trash2, GripVertical, Facebook, Twitter, Linkedin, Github } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LinkSelector } from "./LinkSelector";
+import { LinkSelector } from "@/components/editor/editors/fields/LinkSelector";
 import { ComponentConfig, SubPage } from "@/types/landing";
 
 interface FooterLink {

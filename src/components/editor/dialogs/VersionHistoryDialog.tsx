@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label";
 import { LandingPageVersion, LandingPage } from "@/types/landing";
 import { History, Save, Trash2, FileText, Calendar, CheckCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { ConfirmDialog } from "./ConfirmDialog";
+import { ConfirmDialog } from "@/components/editor/dialogs/ConfirmDialog";
 
 interface VersionHistoryDialogProps {
   open: boolean;

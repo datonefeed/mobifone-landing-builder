@@ -2,7 +2,10 @@
 
 import { useState } from "react";
 import { ComponentConfig } from "@/types/landing";
-import { componentCategories, ComponentVariant } from "./component-templates-data";
+import {
+  componentCategories,
+  ComponentVariant,
+} from "@/components/editor/data/component-templates-data";
 import {
   Dialog,
   DialogContent,
@@ -50,7 +53,7 @@ export function ChangeTemplateDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[85vh] flex flex-col">
+      <DialogContent className="max-w-4xl max-h-[85vh] flex flex-col z-[999]">
         <DialogHeader className="flex-shrink-0">
           <DialogTitle className="flex items-center gap-2">
             <RefreshCw className="h-5 w-5 text-purple-600" />

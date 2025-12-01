@@ -3,7 +3,7 @@
 
 import { Theme, FooterConfig } from "@/types/landing";
 import { Facebook, Twitter, Instagram, Linkedin, Youtube, Github } from "lucide-react";
-import { AnimatedSection } from "./AnimatedSection";
+import { AnimatedSection } from "@/components/landing/AnimatedSection";
 
 interface FooterProps {
   config: FooterConfig;

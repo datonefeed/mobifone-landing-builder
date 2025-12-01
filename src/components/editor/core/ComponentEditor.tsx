@@ -14,16 +14,16 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
-import { ImageUpload } from "./ImageUpload";
-import { FeaturesArrayEditor } from "./FeaturesArrayEditor";
-import { PricingArrayEditor } from "./PricingArrayEditor";
-import { TestimonialsArrayEditor } from "./TestimonialsArrayEditor";
-import { FooterLinksEditor } from "./FooterLinksEditor";
-import { LogoArrayEditor } from "./LogoArrayEditor";
-import { HeaderTabsEditor } from "./HeaderTabsEditor";
-import { StatsArrayEditor } from "./StatsArrayEditor";
-import { FAQArrayEditor } from "./FAQArrayEditor";
-import { LinkSelector } from "./LinkSelector";
+import { ImageUpload } from "@/components/editor/editors/fields/ImageUpload";
+import { FeaturesArrayEditor } from "@/components/editor/editors/arrays/FeaturesArrayEditor";
+import { PricingArrayEditor } from "@/components/editor/editors/arrays/PricingArrayEditor";
+import { TestimonialsArrayEditor } from "@/components/editor/editors/arrays/TestimonialsArrayEditor";
+import { FooterLinksEditor } from "@/components/editor/editors/arrays/FooterLinksEditor";
+import { LogoArrayEditor } from "@/components/editor/editors/arrays/LogoArrayEditor";
+import { HeaderTabsEditor } from "@/components/editor/editors/arrays/HeaderTabsEditor";
+import { StatsArrayEditor } from "@/components/editor/editors/arrays/StatsArrayEditor";
+import { FAQArrayEditor } from "@/components/editor/editors/arrays/FAQArrayEditor";
+import { LinkSelector } from "@/components/editor/editors/fields/LinkSelector";
 import { ensureAnimation } from "@/lib/animation-defaults";
 import { SubPage } from "@/types/landing";
 

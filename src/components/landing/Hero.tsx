@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useEditMode } from "@/contexts/EditModeContext";
 import { getBackgroundStyle, isBackgroundDark } from "@/lib/background-utils";
 import { getLayoutClasses } from "@/lib/layout-utils";
-import { AnimatedSection } from "./AnimatedSection";
+import { AnimatedSection } from "@/components/landing/AnimatedSection";
 
 interface HeroProps {
   config: HeroConfig;

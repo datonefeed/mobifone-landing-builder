@@ -16,7 +16,7 @@ import {
   componentCategories,
   type ComponentCategory,
   type ComponentVariant,
-} from "./component-templates-data";
+} from "@/components/editor/data/component-templates-data";
 
 interface ComponentTemplatesPanelProps {
   open: boolean;

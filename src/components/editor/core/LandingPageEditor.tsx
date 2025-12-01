@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { LandingConfig, LandingPage } from "@/types/landing";
-import { EditableLandingPage } from "./EditableLandingPage";
-import MultiPageEditor from "./MultiPageEditor";
+import { EditableLandingPage } from "@/components/editor/core/EditableLandingPage";
+import MultiPageEditor from "@/components/editor/core/MultiPageEditor";
 
 interface LandingPageEditorProps {
   pageId: string;

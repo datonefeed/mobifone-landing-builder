@@ -4,7 +4,7 @@ import { Theme, CTAConfig } from "@/types/landing";
 import { Button } from "@/components/ui/button";
 import { getBackgroundStyle, isBackgroundDark } from "@/lib/background-utils";
 import { getLayoutClasses } from "@/lib/layout-utils";
-import { AnimatedSection } from "./AnimatedSection";
+import { AnimatedSection } from "@/components/landing/AnimatedSection";
 
 interface CTAProps {
   config: CTAConfig;
