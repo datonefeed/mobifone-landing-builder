@@ -2,7 +2,7 @@
 "use client";
 
 import { useState } from "react";
-import { Theme } from "@/types/landing";
+import { Theme, AnimationConfig } from "@/types/landing";
 import { BackgroundConfig, getBackgroundStyle, isBackgroundDark } from "@/lib/background-utils";
 import { motion } from "framer-motion";
 import { useStaggerAnimation } from "@/hooks/use-scroll-animation";
@@ -28,18 +28,7 @@ interface GalleryConfig {
   spacing?: {
     padding?: "md" | "lg" | "xl" | "2xl";
   };
-  animation?: {
-    type?:
-      | "fadeIn"
-      | "fadeInUp"
-      | "fadeInDown"
-      | "slideInLeft"
-      | "slideInRight"
-      | "zoomIn"
-      | "none";
-    duration?: number;
-    delay?: number;
-  };
+  animation?: AnimationConfig;
 }
 
 interface GalleryProps {
@@ -48,7 +37,7 @@ interface GalleryProps {
 }
 
 export function Gallery({ config }: GalleryProps) {
-  const configWithAnimation = ensureAnimation(config);
+  const configWithAnimation = ensureAnimation(config, "gallery");
   const {
     title,
     subtitle,
@@ -61,7 +50,10 @@ export function Gallery({ config }: GalleryProps) {
   } = configWithAnimation;
 
   const [selectedImage, setSelectedImage] = useState<GalleryItem | null>(null);
-  const stagger = useStaggerAnimation(configWithAnimation.animation, 0.1);
+  const stagger = useStaggerAnimation({
+    animation: configWithAnimation.animation,
+    staggerDelay: 0.1,
+  });
 
   const primaryColor = "var(--color-primary)";
   const textColor = "var(--color-text)";

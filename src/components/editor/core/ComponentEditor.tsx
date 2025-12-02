@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ComponentConfig } from "@/types/landing";
+import { ComponentConfig, HeaderConfig } from "@/types/landing";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -51,7 +51,10 @@ export function ComponentEditor({
   pageSlug,
   isMultiPage = false,
 }: ComponentEditorProps) {
-  const [config, setConfig] = useState(component.config);
+  // Use Record<string, unknown> to allow flexible property access for different component types
+  const [config, setConfig] = useState<Record<string, unknown>>(
+    component.config as Record<string, unknown>
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("content");
 
@@ -63,7 +66,7 @@ export function ComponentEditor({
     const componentWithAnimation = ensureAnimation(component);
 
     // Ensure footer components have background and spacing
-    let processedConfig = componentWithAnimation.config;
+    let processedConfig = componentWithAnimation.config as Record<string, unknown>;
     if (component.type === "footer") {
       processedConfig = {
         ...componentWithAnimation.config,
@@ -83,6 +86,7 @@ export function ComponentEditor({
     // Brief loading state to show component switch
     const timer = setTimeout(() => setIsLoading(false), 100);
     return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [component.id, component.type, component.config]);
 
   const handleChange = (path: string, value: unknown) => {
@@ -171,7 +175,7 @@ export function ComponentEditor({
                 <div className="space-y-2">
                   <Label className="text-xs">Type</Label>
                   <Select
-                    value={(config.logo as { type?: string })?.type || "text"}
+                    value={(config.logo as { type?: string } | undefined)?.type || "text"}
                     onValueChange={(value) => handleChange("logo.type", value)}
                   >
                     <SelectTrigger>
@@ -183,21 +187,21 @@ export function ComponentEditor({
                     </SelectContent>
                   </Select>
 
-                  {(config.logo as { type?: string })?.type === "text" && (
+                  {(config.logo as { type?: string } | undefined)?.type === "text" && (
                     <div className="space-y-2">
                       <Label className="text-xs">Logo Text</Label>
                       <Input
-                        value={(config.logo as { text?: string })?.text || ""}
+                        value={(config.logo as { text?: string } | undefined)?.text || ""}
                         onChange={(e) => handleChange("logo.text", e.target.value)}
                         placeholder="Your Brand"
                       />
                     </div>
                   )}
 
-                  {(config.logo as { type?: string })?.type === "image" && (
+                  {(config.logo as { type?: string } | undefined)?.type === "image" && (
                     <ImageUpload
                       label="Logo Image"
-                      value={(config.logo as { image?: string })?.image || ""}
+                      value={(config.logo as { image?: string } | undefined)?.image || ""}
                       onChange={(url) => handleChange("logo.image", url)}
                       showDefaultLogos={true}
                       description="Choose a default logo or upload your own"
@@ -207,7 +211,7 @@ export function ComponentEditor({
                   <div className="space-y-2">
                     <Label className="text-xs">Logo Link</Label>
                     <Input
-                      value={(config.logo as { link?: string })?.link || "/"}
+                      value={(config.logo as { link?: string } | undefined)?.link || "/"}
                       onChange={(e) => handleChange("logo.link", e.target.value)}
                       placeholder="/"
                     />
@@ -216,9 +220,9 @@ export function ComponentEditor({
               </div>
 
               {/* Navigation Tabs */}
-              {"tabs" in config && Array.isArray(config.tabs) && (
+              {config.tabs && Array.isArray(config.tabs) && (
                 <HeaderTabsEditor
-                  tabs={config.tabs}
+                  tabs={config.tabs as HeaderConfig["tabs"]}
                   onChange={(tabs) => handleChange("tabs", tabs)}
                   allComponents={allComponents}
                   subPages={subPages}
@@ -256,15 +260,15 @@ export function ComponentEditor({
                   )}
                 </div>
 
-                {config.ctaButton && (
+                {!!config.ctaButton && (
                   <div className="space-y-2">
                     <Input
-                      value={(config.ctaButton as { text?: string })?.text || ""}
+                      value={(config.ctaButton as { text?: string } | undefined)?.text || ""}
                       onChange={(e) => handleChange("ctaButton.text", e.target.value)}
                       placeholder="Button text"
                     />
                     <LinkSelector
-                      value={(config.ctaButton as { link?: string })?.link || ""}
+                      value={(config.ctaButton as { link?: string } | undefined)?.link || ""}
                       onChange={(value) => handleChange("ctaButton.link", value)}
                       label="Button Link"
                       placeholder="e.g., #pricing or /slug/page"
@@ -275,7 +279,9 @@ export function ComponentEditor({
                     <div className="space-y-2">
                       <Label className="text-xs">Button Style</Label>
                       <Select
-                        value={(config.ctaButton as { style?: string })?.style || "primary"}
+                        value={
+                          (config.ctaButton as { style?: string } | undefined)?.style || "primary"
+                        }
                         onValueChange={(value) => handleChange("ctaButton.style", value)}
                       >
                         <SelectTrigger>

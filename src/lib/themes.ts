@@ -338,10 +338,7 @@ export function getThemePreview(themeId: string) {
  * Get all themes as array for selection UI
  */
 export function getThemesArray() {
-  return Object.entries(themes).map(([id]) => ({
-    id,
-    ...getThemePreview(id),
-  }));
+  return Object.entries(themes).map(([id]) => getThemePreview(id));
 }
 
 /**

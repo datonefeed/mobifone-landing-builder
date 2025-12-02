@@ -1,7 +1,7 @@
 export interface ComponentData {
   id: string;
   type: string;
-  props: Record<string, any>;
+  props: Record<string, unknown>;
 }
 
 export interface ColumnData {

@@ -29,7 +29,34 @@ const DEFAULT_ANIMATIONS: Record<string, AnimationConfig> = {
  * Ensures a component config has animation property
  * If animation doesn't exist, adds default based on component type
  */
-export function ensureAnimation(component: ComponentConfig): ComponentConfig {
+export function ensureAnimation(component: ComponentConfig): ComponentConfig;
+export function ensureAnimation<T extends { animation?: AnimationConfig }>(
+  config: T,
+  componentType: string
+): T & { animation: AnimationConfig };
+export function ensureAnimation<T extends { animation?: AnimationConfig }>(
+  componentOrConfig: ComponentConfig | T,
+  componentType?: string
+): ComponentConfig | (T & { animation: AnimationConfig }) {
+  // If second argument is provided, treat first as config object
+  if (componentType !== undefined) {
+    const config = componentOrConfig as T;
+    if (config.animation) {
+      return config as T & { animation: AnimationConfig };
+    }
+    const defaultAnimation = DEFAULT_ANIMATIONS[componentType] || {
+      type: "fadeInUp" as const,
+      duration: 600,
+      delay: 0,
+    };
+    return {
+      ...config,
+      animation: defaultAnimation,
+    };
+  }
+
+  // Original behavior for ComponentConfig
+  const component = componentOrConfig as ComponentConfig;
   const config = (component.config as Record<string, unknown>) || {};
 
   // If animation already exists, return as is
@@ -39,7 +66,7 @@ export function ensureAnimation(component: ComponentConfig): ComponentConfig {
 
   // Get default animation for this component type
   const defaultAnimation = DEFAULT_ANIMATIONS[component.type] || {
-    type: "fadeInUp",
+    type: "fadeInUp" as const,
     duration: 600,
     delay: 0,
   };
@@ -58,5 +85,5 @@ export function ensureAnimation(component: ComponentConfig): ComponentConfig {
  * Ensures all components in an array have animation
  */
 export function ensureAnimations(components: ComponentConfig[]): ComponentConfig[] {
-  return components.map(ensureAnimation);
+  return components.map((component) => ensureAnimation(component));
 }

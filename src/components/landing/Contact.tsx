@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Theme } from "@/types/landing";
+import { Theme, AnimationConfig } from "@/types/landing";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -33,18 +33,7 @@ interface ContactConfig {
   spacing?: {
     padding?: "md" | "lg" | "xl";
   };
-  animation?: {
-    type?:
-      | "fadeIn"
-      | "fadeInUp"
-      | "fadeInDown"
-      | "slideInLeft"
-      | "slideInRight"
-      | "zoomIn"
-      | "none";
-    duration?: number;
-    delay?: number;
-  };
+  animation?: AnimationConfig;
 }
 
 interface ContactProps {

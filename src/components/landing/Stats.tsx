@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { Theme } from "@/types/landing";
+import { Theme, AnimationConfig } from "@/types/landing";
 import { BackgroundConfig, getBackgroundStyle, isBackgroundDark } from "@/lib/background-utils";
 import { motion } from "framer-motion";
 import { useStaggerAnimation } from "@/hooks/use-scroll-animation";
@@ -26,18 +26,7 @@ interface StatsConfig {
   spacing?: {
     padding?: "md" | "lg" | "xl" | "2xl";
   };
-  animation?: {
-    type?:
-      | "fadeIn"
-      | "fadeInUp"
-      | "fadeInDown"
-      | "slideInLeft"
-      | "slideInRight"
-      | "zoomIn"
-      | "none";
-    duration?: number;
-    delay?: number;
-  };
+  animation?: AnimationConfig;
 }
 
 interface StatsProps {
@@ -58,7 +47,10 @@ export function Stats({ config, theme }: StatsProps) {
     spacing,
   } = configWithAnimation;
 
-  const stagger = useStaggerAnimation(configWithAnimation.animation, 0.1);
+  const stagger = useStaggerAnimation({
+    animation: configWithAnimation.animation,
+    staggerDelay: 0.1,
+  });
 
   const primaryColor = "var(--color-primary)";
   const textColor = "var(--color-text)";

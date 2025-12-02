@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { Theme } from "@/types/landing";
+import { Theme, AnimationConfig } from "@/types/landing";
 import { Button } from "@/components/ui/button";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
 
@@ -28,18 +28,7 @@ interface ContentConfig {
   spacing?: {
     padding?: "md" | "lg" | "xl";
   };
-  animation?: {
-    type?:
-      | "fadeIn"
-      | "fadeInUp"
-      | "fadeInDown"
-      | "slideInLeft"
-      | "slideInRight"
-      | "zoomIn"
-      | "none";
-    duration?: number;
-    delay?: number;
-  };
+  animation?: AnimationConfig;
 }
 
 interface ContentProps {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Theme } from "@/types/landing";
+import { Theme, AnimationConfig } from "@/types/landing";
 import { AnimatedSection } from "@/components/landing/AnimatedSection";
 import { ensureAnimation } from "@/lib/animation-defaults";
 
@@ -24,18 +24,7 @@ interface FAQConfig {
   spacing?: {
     padding?: "md" | "lg" | "xl";
   };
-  animation?: {
-    type?:
-      | "fadeIn"
-      | "fadeInUp"
-      | "fadeInDown"
-      | "slideInLeft"
-      | "slideInRight"
-      | "zoomIn"
-      | "none";
-    duration?: number;
-    delay?: number;
-  };
+  animation?: AnimationConfig;
 }
 
 interface FAQProps {

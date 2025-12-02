@@ -62,22 +62,26 @@ export function seoConfigToMetadata(seo: SEOConfig): Metadata {
 
     // Article specific
     if (seo.openGraph.type === "article") {
-      (openGraph as any).publishedTime = seo.openGraph.publishedTime;
-      (openGraph as any).modifiedTime = seo.openGraph.modifiedTime;
-      (openGraph as any).expirationTime = seo.openGraph.expirationTime;
-      (openGraph as any).authors = seo.openGraph.authors;
-      (openGraph as any).section = seo.openGraph.section;
-      (openGraph as any).tags = seo.openGraph.tags;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const articleOpenGraph = openGraph as Record<string, unknown>;
+      articleOpenGraph.publishedTime = seo.openGraph.publishedTime;
+      articleOpenGraph.modifiedTime = seo.openGraph.modifiedTime;
+      articleOpenGraph.expirationTime = seo.openGraph.expirationTime;
+      articleOpenGraph.authors = seo.openGraph.authors;
+      articleOpenGraph.section = seo.openGraph.section;
+      articleOpenGraph.tags = seo.openGraph.tags;
     }
 
     // Videos
     if (seo.openGraph.videos && seo.openGraph.videos.length > 0) {
-      (openGraph as any).videos = seo.openGraph.videos;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (openGraph as Record<string, unknown>).videos = seo.openGraph.videos;
     }
 
     // Audio
     if (seo.openGraph.audio && seo.openGraph.audio.length > 0) {
-      (openGraph as any).audio = seo.openGraph.audio;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (openGraph as Record<string, unknown>).audio = seo.openGraph.audio;
     }
 
     metadata.openGraph = openGraph;

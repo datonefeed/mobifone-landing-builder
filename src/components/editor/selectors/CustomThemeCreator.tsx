@@ -383,7 +383,8 @@ export default function CustomThemeCreator({
                       placeholder="Inter, system-ui, sans-serif"
                     />
                     <p className="text-xs text-gray-500">
-                      Example: "Poppins, sans-serif" or "Playfair Display, serif"
+                      Example: &quot;Poppins, sans-serif&quot; or &quot;Playfair Display,
+                      serif&quot;
                     </p>
                   </div>
 
@@ -396,7 +397,7 @@ export default function CustomThemeCreator({
                       placeholder="Inter, system-ui, sans-serif"
                     />
                     <p className="text-xs text-gray-500">
-                      Example: "Open Sans, sans-serif" or "Lato, sans-serif"
+                      Example: &quot;Open Sans, sans-serif&quot; or &quot;Lato, sans-serif&quot;
                     </p>
                   </div>
 

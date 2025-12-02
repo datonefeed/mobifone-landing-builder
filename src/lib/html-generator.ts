@@ -48,10 +48,7 @@ export class HTMLGenerator {
     }
   `;
 
-  static generate(
-    components: ComponentConfig[],
-    options: GenerateHTMLOptions = {}
-  ): string {
+  static generate(components: ComponentConfig[], options: GenerateHTMLOptions = {}): string {
     const {
       includeInlineCSS = true,
       title = "Landing Page",
@@ -155,13 +152,17 @@ ${htmlContent}
       ${config.subtitle ? `<p class="section-subtitle">${this.escapeHTML(config.subtitle)}</p>` : ""}
       ${config.description ? `<p class="section-description">${this.escapeHTML(config.description)}</p>` : ""}
       <div class="features-grid cols-${columns}">
-        ${features.map((feature: any) => `
+        ${features
+          .map(
+            (feature: any) => `
         <div class="feature-card">
           ${feature.icon ? `<div class="feature-icon">${feature.icon}</div>` : ""}
           ${feature.image ? `<img src="${this.escapeHTML(feature.image)}" alt="${this.escapeHTML(feature.title)}" class="feature-image">` : ""}
           <h3 class="feature-title">${this.escapeHTML(feature.title || "")}</h3>
           <p class="feature-description">${this.escapeHTML(feature.description || "")}</p>
-        </div>`).join("")}
+        </div>`
+          )
+          .join("")}
       </div>
     </div>
   </section>`;
@@ -194,19 +195,31 @@ ${htmlContent}
       <div class="footer-content">
         ${config.logo ? `<div class="footer-logo">${this.escapeHTML(config.logo)}</div>` : ""}
         ${config.description ? `<p class="footer-description">${this.escapeHTML(config.description)}</p>` : ""}
-        ${links.length > 0 ? `
+        ${
+          links.length > 0
+            ? `
         <div class="footer-links">
-          ${links.map((linkGroup: any) => `
+          ${links
+            .map(
+              (linkGroup: any) => `
           <div class="footer-link-group">
             <h4>${this.escapeHTML(linkGroup.title || "")}</h4>
             <ul>
-              ${(linkGroup.items || []).map((item: any) => `
+              ${(linkGroup.items || [])
+                .map(
+                  (item: any) => `
               <li><a href="${this.escapeHTML(item.url || "#")}">${this.escapeHTML(item.label || "")}</a></li>
-              `).join("")}
+              `
+                )
+                .join("")}
             </ul>
           </div>
-          `).join("")}
-        </div>` : ""}
+          `
+            )
+            .join("")}
+        </div>`
+            : ""
+        }
         ${config.copyright ? `<p class="footer-copyright">${this.escapeHTML(config.copyright)}</p>` : ""}
       </div>
     </div>
@@ -221,12 +234,20 @@ ${htmlContent}
     <div class="container">
       <div class="header-content">
         ${config.logo ? `<div class="header-logo">${this.escapeHTML(config.logo)}</div>` : ""}
-        ${tabs.length > 0 ? `
+        ${
+          tabs.length > 0
+            ? `
         <nav class="header-nav">
-          ${tabs.map((tab: any) => `
+          ${tabs
+            .map(
+              (tab: any) => `
           <a href="${this.escapeHTML(tab.link || "#")}" class="nav-link">${this.escapeHTML(tab.label || "")}</a>
-          `).join("")}
-        </nav>` : ""}
+          `
+            )
+            .join("")}
+        </nav>`
+            : ""
+        }
         ${config.cta ? this.generateButtonHTML(config.cta, "primary") : ""}
       </div>
     </div>
@@ -243,7 +264,9 @@ ${htmlContent}
       ${config.title ? `<h2 class="section-title">${this.escapeHTML(config.title)}</h2>` : ""}
       ${config.subtitle ? `<p class="section-subtitle">${this.escapeHTML(config.subtitle)}</p>` : ""}
       <div class="pricing-grid">
-        ${plans.map((plan: any) => `
+        ${plans
+          .map(
+            (plan: any) => `
         <div class="pricing-card ${plan.featured ? "featured" : ""}">
           <h3 class="plan-name">${this.escapeHTML(plan.name || "")}</h3>
           <div class="plan-price">
@@ -251,12 +274,18 @@ ${htmlContent}
             ${plan.period ? `<span class="price-period">/${this.escapeHTML(plan.period)}</span>` : ""}
           </div>
           ${plan.description ? `<p class="plan-description">${this.escapeHTML(plan.description)}</p>` : ""}
-          ${plan.features ? `
+          ${
+            plan.features
+              ? `
           <ul class="plan-features">
             ${plan.features.map((feature: string) => `<li>${this.escapeHTML(feature)}</li>`).join("")}
-          </ul>` : ""}
+          </ul>`
+              : ""
+          }
           ${plan.cta ? this.generateButtonHTML(plan.cta, plan.featured ? "primary" : "secondary") : ""}
-        </div>`).join("")}
+        </div>`
+          )
+          .join("")}
       </div>
     </div>
   </section>`;
@@ -272,14 +301,18 @@ ${htmlContent}
       ${config.title ? `<h2 class="section-title">${this.escapeHTML(config.title)}</h2>` : ""}
       ${config.subtitle ? `<p class="section-subtitle">${this.escapeHTML(config.subtitle)}</p>` : ""}
       <div class="testimonials-grid">
-        ${testimonials.map((testimonial: any) => `
+        ${testimonials
+          .map(
+            (testimonial: any) => `
         <div class="testimonial-card">
           ${testimonial.image ? `<img src="${this.escapeHTML(testimonial.image)}" alt="${this.escapeHTML(testimonial.name)}" class="testimonial-avatar">` : ""}
           <p class="testimonial-text">"${this.escapeHTML(testimonial.content || "")}"</p>
           <p class="testimonial-name">${this.escapeHTML(testimonial.name || "")}</p>
           ${testimonial.role ? `<p class="testimonial-role">${this.escapeHTML(testimonial.role)}</p>` : ""}
           ${testimonial.company ? `<p class="testimonial-company">${this.escapeHTML(testimonial.company)}</p>` : ""}
-        </div>`).join("")}
+        </div>`
+          )
+          .join("")}
       </div>
     </div>
   </section>`;
@@ -295,11 +328,15 @@ ${htmlContent}
       ${config.title ? `<h2 class="section-title">${this.escapeHTML(config.title)}</h2>` : ""}
       ${config.subtitle ? `<p class="section-subtitle">${this.escapeHTML(config.subtitle)}</p>` : ""}
       <div class="faq-list">
-        ${faqs.map((faq: any) => `
+        ${faqs
+          .map(
+            (faq: any) => `
         <div class="faq-item">
           <h3 class="faq-question">${this.escapeHTML(faq.question || "")}</h3>
           <p class="faq-answer">${this.escapeHTML(faq.answer || "")}</p>
-        </div>`).join("")}
+        </div>`
+          )
+          .join("")}
       </div>
     </div>
   </section>`;
@@ -332,11 +369,15 @@ ${htmlContent}
     return `  <section id="${id}" class="stats-section ${padding}" style="${bgStyle}">
     <div class="container">
       <div class="stats-grid">
-        ${stats.map((stat: any) => `
+        ${stats
+          .map(
+            (stat: any) => `
         <div class="stat-item">
           <div class="stat-value">${this.escapeHTML(stat.value || "")}</div>
           <div class="stat-label">${this.escapeHTML(stat.label || "")}</div>
-        </div>`).join("")}
+        </div>`
+          )
+          .join("")}
       </div>
     </div>
   </section>`;
@@ -351,10 +392,14 @@ ${htmlContent}
     <div class="container">
       ${config.title ? `<h2 class="section-title">${this.escapeHTML(config.title)}</h2>` : ""}
       <div class="logo-cloud-grid">
-        ${logos.map((logo: any) => `
+        ${logos
+          .map(
+            (logo: any) => `
         <div class="logo-item">
           <img src="${this.escapeHTML(logo.image || logo.url || "")}" alt="${this.escapeHTML(logo.name || "Logo")}" class="logo-image">
-        </div>`).join("")}
+        </div>`
+          )
+          .join("")}
       </div>
     </div>
   </section>`;
@@ -386,11 +431,15 @@ ${htmlContent}
     <div class="container">
       ${config.title ? `<h2 class="section-title">${this.escapeHTML(config.title)}</h2>` : ""}
       <div class="gallery-grid cols-${columns}">
-        ${images.map((image: any) => `
+        ${images
+          .map(
+            (image: any) => `
         <div class="gallery-item">
           <img src="${this.escapeHTML(image.url || image.src || "")}" alt="${this.escapeHTML(image.alt || "Gallery image")}" class="gallery-image">
           ${image.caption ? `<p class="gallery-caption">${this.escapeHTML(image.caption)}</p>` : ""}
-        </div>`).join("")}
+        </div>`
+          )
+          .join("")}
       </div>
     </div>
   </section>`;
@@ -445,14 +494,14 @@ ${htmlContent}
 
   private static getTailwindColor(color: string): string {
     if (!color) return "#ffffff";
-    
+
     // If it's already a hex/rgb color
     if (color.startsWith("#") || color.startsWith("rgb")) return color;
 
     // Map Tailwind colors to actual hex values
     const colorMap: Record<string, string> = {
-      "white": "#ffffff",
-      "black": "#000000",
+      white: "#ffffff",
+      black: "#000000",
       "gray-50": "#f9fafb",
       "gray-100": "#f3f4f6",
       "gray-200": "#e5e7eb",
@@ -499,7 +548,7 @@ ${htmlContent}
   private static escapeHTML(text: unknown): string {
     // Handle null/undefined
     if (text == null || text === undefined) return "";
-    
+
     // Force convert to string using concatenation
     let str = "";
     try {
@@ -507,7 +556,7 @@ ${htmlContent}
     } catch {
       return "";
     }
-    
+
     // Manual character-by-character escape
     let escaped = "";
     for (let i = 0; i < str.length; i++) {

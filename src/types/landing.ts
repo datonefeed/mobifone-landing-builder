@@ -302,6 +302,7 @@ export interface FooterConfig {
   copyright?: string;
   background: BackgroundConfig;
   spacing: SpacingConfig;
+  animation?: AnimationConfig;
 }
 
 // ========================
@@ -359,7 +360,19 @@ export interface OpenGraphConfig {
     alt?: string;
   }>;
   locale?: string;
-  type?: 'website' | 'article' | 'book' | 'profile' | 'music.song' | 'music.album' | 'music.playlist' | 'music.radio_station' | 'video.movie' | 'video.episode' | 'video.tv_show' | 'video.other';
+  type?:
+    | "website"
+    | "article"
+    | "book"
+    | "profile"
+    | "music.song"
+    | "music.album"
+    | "music.playlist"
+    | "music.radio_station"
+    | "video.movie"
+    | "video.episode"
+    | "video.tv_show"
+    | "video.other";
   // Article specific
   publishedTime?: string;
   modifiedTime?: string;
@@ -387,7 +400,7 @@ export interface OpenGraphConfig {
  * Twitter Card configuration
  */
 export interface TwitterConfig {
-  card?: 'summary' | 'summary_large_image' | 'app' | 'player';
+  card?: "summary" | "summary_large_image" | "app" | "player";
   site?: string; // @username
   siteId?: string;
   creator?: string; // @username
@@ -425,7 +438,7 @@ export interface RobotsConfig {
   noimageindex?: boolean;
   nocache?: boolean;
   notranslate?: boolean;
-  maxImagePreview?: 'none' | 'standard' | 'large';
+  maxImagePreview?: "none" | "standard" | "large";
   maxSnippet?: number;
   maxVideoPreview?: number;
   googleBot?: {
@@ -434,7 +447,7 @@ export interface RobotsConfig {
     noarchive?: boolean;
     nosnippet?: boolean;
     noimageindex?: boolean;
-    maxImagePreview?: 'none' | 'standard' | 'large';
+    maxImagePreview?: "none" | "standard" | "large";
     maxSnippet?: number;
     maxVideoPreview?: number;
   };
@@ -504,53 +517,61 @@ export interface SEOConfig {
   metaTitle: string;
   metaDescription: string;
   keywords: string[];
-  
+
   // Legacy support
   ogImage?: string;
   canonical?: string;
-  
+
   // Application metadata
   applicationName?: string;
   authors?: Array<{ name: string; url?: string }>;
   generator?: string;
-  referrer?: 'no-referrer' | 'no-referrer-when-downgrade' | 'origin' | 'origin-when-cross-origin' | 'same-origin' | 'strict-origin' | 'strict-origin-when-cross-origin' | 'unsafe-url';
-  
+  referrer?:
+    | "no-referrer"
+    | "no-referrer-when-downgrade"
+    | "origin"
+    | "origin-when-cross-origin"
+    | "same-origin"
+    | "strict-origin"
+    | "strict-origin-when-cross-origin"
+    | "unsafe-url";
+
   // Theme and appearance
   themeColor?: string | Array<{ media: string; color: string }>;
-  colorScheme?: 'light' | 'dark' | 'light dark';
+  colorScheme?: "light" | "dark" | "light dark";
   viewport?: string;
-  
+
   // Open Graph
   openGraph?: OpenGraphConfig;
-  
+
   // Twitter
   twitter?: TwitterConfig;
-  
+
   // Robots
   robots?: RobotsConfig;
-  
+
   // Alternates
   alternates?: AlternateConfig;
-  
+
   // Verification
   verification?: VerificationConfig;
-  
+
   // App Links
   appLinks?: AppLinksConfig;
-  
+
   // Icons
   icons?: IconsConfig;
-  
+
   // Web App Manifest
   manifest?: string;
-  
+
   // Apple Web App
   appleWebApp?: {
     capable?: boolean;
     title?: string;
-    statusBarStyle?: 'default' | 'black' | 'black-translucent';
+    statusBarStyle?: "default" | "black" | "black-translucent";
   };
-  
+
   // Format Detection
   formatDetection?: {
     telephone?: boolean;
@@ -559,13 +580,13 @@ export interface SEOConfig {
     email?: boolean;
     url?: boolean;
   };
-  
+
   // iTunes App
   itunes?: {
     appId?: string;
     appArgument?: string;
   };
-  
+
   // Abstract and classification
   abstract?: string;
   archives?: string[];

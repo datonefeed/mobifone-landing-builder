@@ -184,7 +184,7 @@ export function FeaturesArrayEditor({ features, onChange }: FeaturesArrayEditorP
 
       {features.length === 0 && (
         <div className="text-center py-8 text-sm text-gray-500 border-2 border-dashed rounded">
-          No features yet. Click "Add Feature" to get started.
+          No features yet. Click &quot;Add Feature&quot; to get started.
         </div>
       )}
     </div>

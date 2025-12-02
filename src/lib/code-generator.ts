@@ -153,7 +153,7 @@ function renderComponent(component: ComponentData): string {
     case "input":
       return `<Input${renderProps(props)} />`;
     case "text":
-      const Element = props.element || "p";
+      const Element = (props.element as string) || "p";
       return `<${Element}${renderProps(props)}>${props.text || (Element === "p" ? "Paragraph text" : `${Element.toUpperCase()} Heading`)}</${Element}>`;
     case "image":
       return `<img${renderProps(props)} />`;
@@ -166,7 +166,7 @@ function renderComponent(component: ComponentData): string {
   }
 }
 
-function renderProps(props: Record<string, any> = {}): string {
+function renderProps(props: Record<string, unknown> = {}): string {
   let propsString = "";
 
   // Handle className
